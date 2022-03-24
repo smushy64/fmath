@@ -1,8 +1,16 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
+#[allow(dead_code)]
+
+pub mod vector;
+
+pub fn clamp<N>( value:N, min:N, max:N ) -> N
+where N:PartialOrd
+{
+    assert!( min <= max );
+    if value < min {
+        return min;
+    } else if value > max {
+        return max;
     }
+
+    return value;
 }
