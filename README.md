@@ -1,0 +1,1 @@
+Math library for personal Rust projects :)
