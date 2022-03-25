@@ -1,13 +1,18 @@
-## Math Library for personal Rust Projects
+# Math Library for personal Rust Projects
 
-# Functions
+## Functions
 
 - Clamp
 - Degrees to Radians
 - Radians to Degrees
 
-# Types
+## Types
 
-- Angle enum, used to specify what format angles are in
-- Vector2 to Vector4
+- Angle enum
+  - Degrees
+  - Radians
+- Vectors
+  - Vector2
+  - Vector3
+  - Vector4
 - Matrix4x4
