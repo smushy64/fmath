@@ -8,7 +8,7 @@ pub const VECTOR4_ZERO:Vector4 = Vector4{ components:[ 0.0,  0.0,  0.0, 0.0 ] };
 /// `Vector4` with components set to **1.0**
 pub const VECTOR4_ONE :Vector4 = Vector4{ components:[ 1.0,  1.0,  1.0, 1.0 ] };
 
-/// 3-component Vector
+/// 4-component Vector
 /// 
 /// Indexable with **[ ]**
 #[derive(Clone, Copy, PartialEq, Debug)]

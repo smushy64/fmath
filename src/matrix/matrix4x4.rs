@@ -194,28 +194,28 @@ impl Matrix4x4 {
 
     /// Multiply `Vector4` by `Matrix4x4`
     /// 
-    /// Returns: `4 element f32 array`
-    pub fn mul_vector4( m:&Self, v:&Vector4 ) -> [f32;4] {
-        [
+    /// Returns: `Vector4`
+    pub fn mul_vector4( m:&Self, v:&Vector4 ) -> Vector4 {
+        Vector4::from_array([
             ( m[0] * v[0] ) + ( m[4] * v[1] ) + ( m[8]  * v[2] ) + ( m[12] * v[3] ),
             ( m[1] * v[0] ) + ( m[5] * v[1] ) + ( m[9]  * v[2] ) + ( m[13] * v[3] ),
             ( m[2] * v[0] ) + ( m[6] * v[1] ) + ( m[10] * v[2] ) + ( m[14] * v[3] ),
             ( m[3] * v[0] ) + ( m[7] * v[1] ) + ( m[11] * v[2] ) + ( m[15] * v[3] ),
-        ]
+        ])
     }
 
     /// Multiply `Vector3` by `Matrix4x4`
     /// 
-    /// Adds 1.0 to end of Vector3 when calculating result ( homogenous coordinate )
+    /// Adds **1.0** to end of `Vector3` when calculating result ( *homogenous coordinate* )
     /// 
-    /// Returns: `4 element f32 array`
-    pub fn mul_vector3( m:&Self, v:&Vector3 ) -> [f32;4] {
-        [
+    /// Returns: `Vector3`
+    pub fn mul_vector3( m:&Self, v:&Vector3 ) -> Vector3 {
+        Vector3::from_array([
             ( m[0] * v[0] ) + ( m[4] * v[1] ) + ( m[8]  * v[2] ) + ( m[12] * 1.0 ),
             ( m[1] * v[0] ) + ( m[5] * v[1] ) + ( m[9]  * v[2] ) + ( m[13] * 1.0 ),
             ( m[2] * v[0] ) + ( m[6] * v[1] ) + ( m[10] * v[2] ) + ( m[14] * 1.0 ),
-            ( m[3] * v[0] ) + ( m[7] * v[1] ) + ( m[11] * v[2] ) + ( m[15] * 1.0 ),
-        ]
+            // ( m[3] * v[0] ) + ( m[7] * v[1] ) + ( m[11] * v[2] ) + ( m[15] * 1.0 ),
+        ])
     }
 
 }
@@ -325,7 +325,7 @@ impl Mul<Self> for Matrix4x4 {
 
 }
 
-/// `Matrix4x4` with all cells set to 0
+/// `Matrix4x4` with all cells set to **0.0**
 pub const MATRIX4X4_ZERO:Matrix4x4 = Matrix4x4 {
     data: [
         0.0,0.0,0.0,0.0,
@@ -335,7 +335,7 @@ pub const MATRIX4X4_ZERO:Matrix4x4 = Matrix4x4 {
     ]
 };
 
-/// `Matrix4x4` with diagonals set to 1
+/// `Matrix4x4` with diagonals set to **1.0**
 /// 
 /// Useful starting point for graphics-related calculations.
 pub const MATRIX4X4_IDENTITY:Matrix4x4 = Matrix4x4 {
