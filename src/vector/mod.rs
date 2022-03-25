@@ -27,6 +27,30 @@ pub use vector4::{
     VECTOR4_ONE,
 };
 
+impl From<Vector3> for Vector2 {
+    fn from(v:Vector3) -> Self {
+        Self::from_array([v[0], v[1]])
+    }
+}
+
+impl From<Vector2> for Vector3 {
+    fn from(v:Vector2) -> Self {
+        Self::from_array([v[0], v[1], 0.0])
+    }
+}
+
+impl From<Vector4> for Vector3 {
+    fn from(v:Vector4) -> Self {
+        Self::from_array([v[0], v[1], v[2]])
+    }
+}
+
+impl From<Vector3> for Vector4 {
+    fn from(v:Vector3) -> Self {
+        Self::from_array([v[0], v[1], v[2], 0.0])
+    }
+}
+
 fn negate_components( v:&mut [f32] ) {
     let mut i = 0;
     while i < v.len() {

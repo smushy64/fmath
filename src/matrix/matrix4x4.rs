@@ -19,7 +19,6 @@ use crate::{
 /// 
 /// Indexable with **[ ]**
 /// 
-/// 
 /// The following table shows what cell each index corresponds to
 /// 
 /// `0`&nbsp;&nbsp;`4`&nbsp;&nbsp;&nbsp;`8`&nbsp;&nbsp;&nbsp;`12`
