@@ -35,7 +35,8 @@ fn negate_components( v:&mut [f32] ) {
     }
 }
 
-pub fn add_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
+/// Component-wise addition for two `arrays` with equal lenghts.
+pub(crate) fn add_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
     let mut i:usize = 0;
     while i < result.len() {
         result[i] = v1[i] + v2[i];
@@ -43,7 +44,8 @@ pub fn add_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
     }
 }
 
-pub fn sub_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
+/// Component-wise subtraction for two `arrays` with equal lenghts.
+pub(crate) fn sub_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
     let mut i:usize = 0;
     while i < result.len() {
         result[i] = v1[i] - v2[i];
@@ -51,7 +53,8 @@ pub fn sub_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
     }
 }
 
-pub fn scale_components( v:&[f32], scalar:f32, result:&mut [f32] ) {
+/// Component-wise scale `array` by `scalar`
+pub(crate) fn scale_components( v:&[f32], scalar:f32, result:&mut [f32] ) {
     let mut i:usize = 0;
     while i < result.len() {
         result[i] = v[i] * scalar;
