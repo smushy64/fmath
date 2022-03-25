@@ -1,6 +1,6 @@
 use core::fmt::Display;
 use core::ops::{
-    Add, Sub, Mul, Div, Neg
+    Add, Sub, Mul, Div, Neg, Index, IndexMut
 };
 
 pub const VECTOR4_ZERO:Vector4 = Vector4{ components:[ 0.0,  0.0,  0.0, 0.0 ] };
@@ -133,6 +133,20 @@ impl Display for Vector4 {
         write!( f, 
             "Vector 4: {}, {}, {}, {}", self.x(), self.y(), self.z(), self.w()
         )
+    }
+}
+
+impl Index<usize> for Vector4 {
+    type Output = f32;
+
+    fn index(&self, index:usize) -> &f32 {
+        &self.components[index]
+    }
+}
+
+impl IndexMut<usize> for Vector4 {
+    fn index_mut(&mut self, index:usize) -> &mut f32 {
+        &mut self.components[index]
     }
 }
 
