@@ -5,7 +5,7 @@ Math Library for my personal Rust Projects
 
 This is not a general-purpose math library. It is specifically written for my purposes only.
 
-You're free to use it in your projects if it fits your needs, don't even worry about accreditation :)
+Feel free to use it in your projects if it fits your needs, don't even worry about accreditation :)
 
 ## Example
 ```rust
