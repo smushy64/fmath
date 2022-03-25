@@ -65,7 +65,7 @@ where N:PartialOrd
 /// * Returns: `degrees` between **0.0** and **359.99999**
 pub fn degrees_overflow( degrees:f32 ) -> f32 {
     let degrees_abs = degrees.abs();
-    if degrees_abs > 359.99999 {
+    if degrees_abs > 360.0 {
         return degrees_abs % 360.0;
     } else {
         return degrees_abs;
