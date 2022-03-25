@@ -123,7 +123,8 @@ fn clamp_magnitude_components( components:&mut[f32], max:f32 ) {
     }
 }
 
-fn componentwise_scale_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
+/// Component-wise scale `array` by `array`
+pub(crate) fn componentwise_scale_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
     let mut i = 0;
     while i < result.len() {
         result[i] = v1[i] * v2[i];
@@ -131,7 +132,8 @@ fn componentwise_scale_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
     }
 }
 
-fn componentwise_div_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
+/// Component-wise divide `array` by `array`
+pub(crate) fn componentwise_div_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
     let mut i = 0;
     while i < result.len() {
         result[i] = v1[i] / v2[i];

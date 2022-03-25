@@ -29,7 +29,6 @@ use crate::{
 /// 
 /// `3`&nbsp;&nbsp;`7`&nbsp;&nbsp;`11`&nbsp;&nbsp;`15`
 /// 
-/// 
 #[derive(Copy, Clone, Debug)]
 pub struct Matrix4x4 {
     data:[f32;16]

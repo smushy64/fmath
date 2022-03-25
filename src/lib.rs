@@ -3,8 +3,41 @@
 pub mod vector;
 pub mod matrix;
 pub mod hexadecimal;
+pub mod color;
 
 pub use core::f32::consts::PI;
+
+/// Returns: the **largest** value in the given `array`
+pub fn max<N>( values:&[N] ) -> N
+where N:PartialOrd + Copy
+{
+    let mut largest = values[0];
+    let mut i = 0;
+    while i < values.len() {
+        if values[i] > largest {
+            largest = values[i];
+        }
+        i += 1;
+    }
+
+    return largest;
+}
+
+/// Returns: the **smallest** value in the given `array`
+pub fn min<N>( values:&[N] ) -> N
+where N:PartialOrd + Copy
+{
+    let mut smallest = values[0];
+    let mut i = 0;
+    while i < values.len() {
+        if values[i] < smallest {
+            smallest = values[i];
+        }
+        i += 1;
+    }
+
+    return smallest;
+}
 
 /// Clamps the given `value` between given `minimum` and `maximum`.
 /// 
@@ -25,6 +58,74 @@ where N:PartialOrd
     }
 
     return value;
+}
+
+/// Overflows input `f32` between **0.0** and **359.99999**
+/// 
+/// * Returns: `degrees` between **0.0** and **359.99999**
+pub fn degrees_overflow( degrees:f32 ) -> f32 {
+    let degrees_abs = degrees.abs();
+    if degrees_abs > 359.99999 {
+        return degrees_abs % 360.0;
+    } else {
+        return degrees_abs;
+    }
+}
+
+/// Adds `lhs` and `rhs` with *overflow* check
+/// 
+/// * Returns: `u8::MAX` if `result` overflows
+/// 
+/// * Returns: `result` if no overflow occurs
+pub fn u8_add_overflow_max_clamp( lhs:u8, rhs:u8 ) -> u8 {
+    let ( result, is_overflowing ) = u8::overflowing_add(lhs, rhs);
+    if is_overflowing {
+        return u8::MAX;
+    } else {
+        return result;
+    }
+}
+
+/// Subtracts `rhs` from `lhs` with *overflow* check
+/// 
+/// * Returns: **0** if `result` overflows
+/// 
+/// * Returns: `result` if no overflow occurs
+pub fn u8_sub_overflow_min_clamp( lhs:u8, rhs:u8 ) -> u8 {
+    let ( result, is_overflowing ) = u8::overflowing_sub(lhs, rhs);
+    if is_overflowing {
+        return 0_u8;
+    } else {
+        return result;
+    }
+}
+
+/// Multiplies `lhs` and `rhs` with *overflow* check
+/// 
+/// * Returns: `u8::MAX` if `result` overflows
+/// 
+/// * Returns: `result` if no overflow occurs
+pub fn u8_mul_overflow_max_clamp( lhs:u8, rhs:u8 ) -> u8 {
+    let ( result, is_overflowing ) = u8::overflowing_mul(lhs, rhs);
+    if is_overflowing {
+        return u8::MAX;
+    } else {
+        return result;
+    }
+}
+
+/// Divides `lhs` by `rhs` with *overflow* check
+/// 
+/// * Returns: **0** if `result` overflows
+/// 
+/// * Returns: `result` if no overflow occurs
+pub fn u8_div_overflow_min_clamp( lhs:u8, rhs:u8 ) -> u8 {
+    let ( result, is_overflowing ) = u8::overflowing_div(lhs, rhs);
+    if is_overflowing {
+        return 0_u8;
+    } else {
+        return result;
+    }
 }
 
 /// `Degrees` or `Radians`
