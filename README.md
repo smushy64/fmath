@@ -5,6 +5,7 @@
 - Clamp
 - Degrees to Radians
 - Radians to Degrees
+- Hexadecimal Encoder/Decoder
 
 ## Types
 
