@@ -2,6 +2,7 @@
 
 pub mod vector;
 pub mod matrix;
+pub mod hexadecimal;
 
 pub use core::f32::consts::PI;
 
