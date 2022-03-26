@@ -97,9 +97,9 @@ in Cargo.toml file...
 
 ### Documentation
 
-build documentation with *cargo docs* in the command line
+build documentation with *cargo doc* in the command line
 ```
-  cargo docs
+  cargo doc
 ```
 
 ## Library Contains...
