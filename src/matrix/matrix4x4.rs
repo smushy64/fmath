@@ -63,10 +63,10 @@ impl Matrix4x4 {
     pub fn new_translate( t:&[f32;3] ) -> Self {
         let mut result = MATRIX4X4_IDENTITY.clone();
 
-        // data indeces( 3, 7, 11 ) are where translation values go
-        result.data[3]  = t[0];
-        result.data[7]  = t[1];
-        result.data[11] = t[2];
+        // data indeces( 12, 13, 14 ) are where translation values go
+        result.data[12] = t[0];
+        result.data[13] = t[1];
+        result.data[14] = t[2];
 
         return result;
     }
@@ -108,8 +108,8 @@ impl Matrix4x4 {
         let mut result = MATRIX4X4_IDENTITY.clone();
 
         result.data[0]  =  theta_rad.cos();
-        result.data[8]  =  theta_rad.sin();
         result.data[2]  = -theta_rad.sin();
+        result.data[8]  =  theta_rad.sin();
         result.data[10] =  theta_rad.cos();
 
         return result;
@@ -119,8 +119,8 @@ impl Matrix4x4 {
         let mut result = MATRIX4X4_IDENTITY.clone();
 
         result.data[0] =  theta_rad.cos();
-        result.data[4] = -theta_rad.sin();
         result.data[1] =  theta_rad.sin();
+        result.data[4] = -theta_rad.sin();
         result.data[5] =  theta_rad.cos();
 
         return result;
