@@ -31,7 +31,7 @@ pub fn decode_hex_str( hex:&str ) -> Result<Vec<u8>, String> {
 
 }
 
-/// Encodes input bytes `array` into `String`
+/// Encodes input bytes `array` into *hexadecimal* `String`
 pub fn encode_hex( bytes:&[u8] ) -> String {
     let mut result = String::with_capacity( bytes.len() * 2 );
 

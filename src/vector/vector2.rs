@@ -3,22 +3,27 @@ use core::ops::{
     Add, Sub, Mul, Div, Neg, Index, IndexMut
 };
 
-/// `Vector2` with components set to **0.0**
-pub const VECTOR2_ZERO :Vector2 = Vector2{ components:[ 0.0,  0.0] };
-/// `Vector2` with components set to **1.0**
-pub const VECTOR2_ONE  :Vector2 = Vector2{ components:[ 1.0,  1.0] };
-/// `Vector2` with **-1.0** in the `x` component
-pub const VECTOR2_LEFT :Vector2 = Vector2{ components:[-1.0,  0.0] };
-/// `Vector2` with **1.0** in the `x` component
-pub const VECTOR2_RIGHT:Vector2 = Vector2{ components:[ 1.0,  0.0] };
-/// `Vector2` with **1.0** in the `y` component
-pub const VECTOR2_UP   :Vector2 = Vector2{ components:[ 0.0,  1.0] };
-/// `Vector2` with **-1.0** in the `y` component
-pub const VECTOR2_DOWN :Vector2 = Vector2{ components:[ 0.0, -1.0] };
+pub mod consts {
+    use super::Vector2;
+    /// `Vector2` with components set to **0.0**
+    pub const VECTOR2_ZERO :Vector2 = Vector2{ components:[ 0.0,  0.0] };
+    /// `Vector2` with components set to **1.0**
+    pub const VECTOR2_ONE  :Vector2 = Vector2{ components:[ 1.0,  1.0] };
+    /// `Vector2` with **-1.0** in the `x` component
+    pub const VECTOR2_LEFT :Vector2 = Vector2{ components:[-1.0,  0.0] };
+    /// `Vector2` with **1.0** in the `x` component
+    pub const VECTOR2_RIGHT:Vector2 = Vector2{ components:[ 1.0,  0.0] };
+    /// `Vector2` with **1.0** in the `y` component
+    pub const VECTOR2_UP   :Vector2 = Vector2{ components:[ 0.0,  1.0] };
+    /// `Vector2` with **-1.0** in the `y` component
+    pub const VECTOR2_DOWN :Vector2 = Vector2{ components:[ 0.0, -1.0] };
+}
 
 /// 2-component Vector
 /// 
 /// Indexable with **[ ]**
+/// 
+/// Implements: `Clone`, `Copy`, `PartialEq`, `Debug`
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct Vector2 {
     components:[f32;2]
@@ -34,9 +39,7 @@ impl Vector2 {
 
     /// Create new `Vector2` from 2-component `array`
     pub fn from_array( components:[f32;2] ) -> Self {
-        Self {
-            components
-        }
+        Self { components }
     }
 
     /// Returns: `reference` to vector's components `array`
@@ -69,12 +72,12 @@ impl Vector2 {
         &mut self.components[1]
     }
 
-    /// Set `x` and `y` component
+    /// Set `x` and `y` components
     pub fn set(&mut self, x:f32, y:f32) {
         self.components = [x,y];
     }
 
-    /// Assign components to given `array`
+    /// Set components to given `array`
     pub fn set_array(&mut self, components:[f32;2]) {
         self.components = components;
     }
@@ -104,7 +107,7 @@ impl Vector2 {
     }
 
     // =============================== &mut self =====================================
-    /// Clamp vector's length(`magnitude`) to given length
+    /// Clamp vector's `magnitude` to given `max`
     pub fn clamp_magnitude(&mut self, max:f32) {
         super::clamp_magnitude_components(&mut self.components, max);
     }

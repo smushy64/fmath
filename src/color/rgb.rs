@@ -19,6 +19,8 @@ use crate::{
 /// Color represented as a 3 `f32` `array`
 /// 
 /// Indexable with **[ ]**
+/// 
+/// Implements: `Clone`, `Copy`, `PartialEq`, `Debug`
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct ColorRGB {
     data:[f32;3]
@@ -46,7 +48,11 @@ impl ColorRGB {
         }
     }
 
-    /// Create `ColorRGB` from *hexadecimal* `str`
+    /// Create `ColorRGB` from *hexadecimal* `&str`
+    /// 
+    /// - Returns: new `ColorRGB` if hexadecimal decode is successful
+    /// - Returns: error `String` if hexadecimal decode is **not** successful
+    /// - Returns: error `String` if `decode_hex_str(hex)` returns a `Vec<u8>` with greater than **or** less than 3 elements
     pub fn from_hex( hex:&str ) -> Result<Self, String> {
         let bytes = decode_hex_str(hex)?;
         if bytes.len() != 3 {
@@ -109,12 +115,12 @@ impl ColorRGB {
         &mut self.data[2]
     }
 
-    /// Set `r`, `g` and `b` component
+    /// Set `r`, `g` and `b` components
     pub fn set(&mut self, r:f32, g:f32, b:f32) {
         self.data = [r,g,b];
     }
 
-    /// Assign components to given `array`
+    /// Set components to given `array`
     pub fn set_array(&mut self, rgb:[f32;3]) {
         self.data = rgb;
     }
@@ -227,6 +233,8 @@ impl Div for ColorRGB {
 /// Color represented as a 4 `f32` `array`
 /// 
 /// Indexable with **[ ]**
+/// 
+/// Implements: `Clone`, `Copy`, `PartialEq`, `Debug`
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct ColorRGBA {
     data:[f32;4]
@@ -255,7 +263,11 @@ impl ColorRGBA {
         }
     }
 
-    /// Create `ColorRGBA` from *hexadecimal* `str`
+    /// Create `ColorRGBA` from *hexadecimal* `&str`
+    /// 
+    /// - Returns: new `ColorRGBA` if hexadecimal decode is successful
+    /// - Returns: error `String` if hexadecimal decode is **not** successful
+    /// - Returns: error `String` if `decode_hex_str(hex)` returns a `Vec<u8>` with greater than **or** less than 3 elements
     pub fn from_hex( hex:&str ) -> Result<Self, String> {
         let bytes = decode_hex_str(hex)?;
         if bytes.len() != 3 {
@@ -330,12 +342,12 @@ impl ColorRGBA {
         &mut self.data[3]
     }
 
-    /// Set `r`, `g`, `b` and `a` component
+    /// Set `r`, `g`, `b` and `a` components
     pub fn set(&mut self, r:f32, g:f32, b:f32, a:f32) {
         self.data = [r,g,b,a];
     }
 
-    /// Assign components to given `array`
+    /// Set components to given `array`
     pub fn set_array(&mut self, rgba:[f32;4]) {
         self.data = rgba;
     }

@@ -3,14 +3,19 @@ use core::ops::{
     Add, Sub, Mul, Div, Neg, Index, IndexMut
 };
 
-/// `Vector4` with components set to **0.0**
-pub const VECTOR4_ZERO:Vector4 = Vector4{ components:[ 0.0,  0.0,  0.0, 0.0 ] };
-/// `Vector4` with components set to **1.0**
-pub const VECTOR4_ONE :Vector4 = Vector4{ components:[ 1.0,  1.0,  1.0, 1.0 ] };
+pub mod consts {
+    use super::Vector4;
+    /// `Vector4` with components set to **0.0**
+    pub const VECTOR4_ZERO:Vector4 = Vector4{ components:[ 0.0,  0.0,  0.0, 0.0 ] };
+    /// `Vector4` with components set to **1.0**
+    pub const VECTOR4_ONE :Vector4 = Vector4{ components:[ 1.0,  1.0,  1.0, 1.0 ] };
+}
 
 /// 4-component Vector
 /// 
 /// Indexable with **[ ]**
+/// 
+/// Implements: `Clone`, `Copy`, `PartialEq`, `Debug`
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct Vector4 {
     components:[f32;4]
@@ -118,7 +123,7 @@ impl Vector4 {
     }
 
     // =============================== &mut self =====================================
-    /// Clamp vector's length(`magnitude`) to given length
+    /// Clamp vector's `magnitude` to given `max`
     pub fn clamp_magnitude(&mut self, max:f32) {
         super::clamp_magnitude_components(&mut self.components, max);
     }

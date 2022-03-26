@@ -11,7 +11,6 @@ use crate::{
     u8_add_overflow_max_clamp,
     u8_sub_overflow_min_clamp,
     u8_mul_overflow_max_clamp,
-    u8_div_overflow_min_clamp,
     hexadecimal::{
         decode_hex_str,
         encode_hex,
@@ -22,6 +21,8 @@ use crate::{
 /// Color represented as a 3 byte `array`
 /// 
 /// Indexable with **[ ]**
+/// 
+/// Implements: `Clone`, `Copy`, `PartialEq`, `Debug`
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct ColorRGB8 {
     data:[u8;3]
@@ -38,7 +39,11 @@ impl ColorRGB8 {
         Self { data:rgb }
     }
 
-    /// Create `ColorRGB8` from *hexadecimal* `str`
+    /// Create `ColorRGB8` from *hexadecimal* `&str`
+    /// 
+    /// - Returns: new `ColorRGB8` if hexadecimal decode is successful
+    /// - Returns: error `String` if hexadecimal decode is **not** successful
+    /// - Returns: error `String` if `decode_hex_str(hex)` returns a `Vec<u8>` with greater than **or** less than 3 elements
     pub fn from_hex( hex:&str ) -> Result<Self, String> {
         let bytes = decode_hex_str(hex)?;
         if bytes.len() != 3 {
@@ -92,12 +97,12 @@ impl ColorRGB8 {
         &mut self.data[2]
     }
 
-    /// Set `r`, `g` and `b` component
+    /// Set `r`, `g` and `b` components
     pub fn set(&mut self, r:u8, g:u8, b:u8) {
         self.data = [r,g,b];
     }
 
-    /// Assign components to given `array`
+    /// Set components to given `array`
     pub fn set_array(&mut self, rgb:[u8;3]) {
         self.data = rgb;
     }
@@ -207,9 +212,9 @@ impl Div for ColorRGB8 {
     fn div(self, rhs: Self) -> Self {
         Self {
             data:[
-                u8_div_overflow_min_clamp( self[0], rhs[0] ),
-                u8_div_overflow_min_clamp( self[1], rhs[1] ),
-                u8_div_overflow_min_clamp( self[2], rhs[2] ),
+                self[0] / rhs[0],
+                self[1] / rhs[1],
+                self[2] / rhs[2],
             ]
         }
     }
@@ -218,6 +223,8 @@ impl Div for ColorRGB8 {
 /// Color represented as a 4 byte `array`
 /// 
 /// Indexable with **[ ]**
+/// 
+/// Implements: `Clone`, `Copy`, `PartialEq`, `Debug`
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct ColorRGBA8 {
     data:[u8;4]
@@ -234,7 +241,11 @@ impl ColorRGBA8 {
         Self { data:rgba }
     }
 
-    /// Create `ColorRGBA8` from *hexadecimal* `str`
+    /// Create `ColorRGBA8` from *hexadecimal* `&str`
+    /// 
+    /// - Returns: new `ColorRGBA8` if hexadecimal decode is successful
+    /// - Returns: error `String` if hexadecimal decode is **not** successful
+    /// - Returns: error `String` if `decode_hex_str(hex)` returns a `Vec<u8>` with greater than **or** less than 3 elements
     pub fn from_hex( hex:&str ) -> Result<Self, String> {
         let bytes = decode_hex_str(hex)?;
         if bytes.len() != 3 {
@@ -299,12 +310,12 @@ impl ColorRGBA8 {
         &mut self.data[3]
     }
 
-    /// Set `r`, `g`, `b` and `a` component
+    /// Set `r`, `g`, `b` and `a` components
     pub fn set(&mut self, r:u8, g:u8, b:u8, a:u8) {
         self.data = [r,g,b,a];
     }
 
-    /// Assign components to given `array`
+    /// Set components to given `array`
     pub fn set_array(&mut self, rgba:[u8;4]) {
         self.data = rgba;
     }
@@ -417,10 +428,10 @@ impl Div for ColorRGBA8 {
     fn div(self, rhs: Self) -> Self {
         Self {
             data:[
-                u8_div_overflow_min_clamp( self[0], rhs[0] ),
-                u8_div_overflow_min_clamp( self[1], rhs[1] ),
-                u8_div_overflow_min_clamp( self[2], rhs[2] ),
-                u8_div_overflow_min_clamp( self[3], rhs[3] ),
+                self[0] / rhs[0],
+                self[1] / rhs[1],
+                self[2] / rhs[2],
+                self[3] / rhs[3],
             ]
         }
     }

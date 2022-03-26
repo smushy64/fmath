@@ -1,12 +1,12 @@
 [package]
 name = "fmath"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 authors = ["Alicia <smushybusiness@gmail.com>"]
 description = "A math library for my personal projects"
 readme = "README.md"
 homepage = "https://github.com/smushy64/fmath"
 repository = "https://github.com/smushy64/fmath"
-license = "MIT"
+license = "MIT-0"
 keywords = ["math"]
-categories = ["Mathematics", "Data structures", "Game development"]
+categories = ["mathematics", "data-structures", "game-development"]

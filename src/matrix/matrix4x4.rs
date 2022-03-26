@@ -15,6 +15,11 @@ use crate::{
     }
 };
 
+use consts::{
+    MATRIX4X4_IDENTITY,
+    MATRIX4X4_ZERO,
+};
+
 /// Data is in *column-major* order
 /// 
 /// Indexable with **[ ]**
@@ -28,6 +33,8 @@ use crate::{
 /// `2`&nbsp;&nbsp;`6`&nbsp;&nbsp;`10`&nbsp;&nbsp;`14`
 /// 
 /// `3`&nbsp;&nbsp;`7`&nbsp;&nbsp;`11`&nbsp;&nbsp;`15`
+/// 
+/// Implements `Copy`, `Clone`, `Debug`
 /// 
 #[derive(Copy, Clone, Debug)]
 pub struct Matrix4x4 {
@@ -47,11 +54,11 @@ impl Matrix4x4 {
     /// 
     /// `r`: rotation
     /// 
-    /// `s`: scaling
+    /// `s`: scale
     /// 
     /// `angle_kind`: *Degrees* or *Radians*
     /// 
-    /// *Radians* are faster as there's no need to do any conversion.
+    /// *Radians* should be faster as there's no need to do any conversion.
     pub fn new_trs( t:&[f32;3], r:&[f32;3], s:&[f32;3], angle_kind:Angle ) -> Self {
         return 
             Self::new_translate(t) *
@@ -75,7 +82,7 @@ impl Matrix4x4 {
     /// 
     /// `kind`: *Degrees* or *Radians*
     /// 
-    /// *Radians* are faster as there's no need to do any conversion.
+    /// *Radians* should be faster as there's no need to do any conversion.
     pub fn new_rotate( r:&[f32;3], kind:Angle ) -> Self {
         match kind {
             Angle::Degrees => {
@@ -140,12 +147,12 @@ impl Matrix4x4 {
 
 
 
-    /// Creates `Matrix4x4` from `array` in column-major order
+    /// Creates `Matrix4x4` from `array` in *column-major* order
     pub fn from_array(array:[f32;16]) -> Self {
         Self { data:array }
     }
 
-    /// Creates `Matrix4x4` from `array` in row-major order
+    /// Creates `Matrix4x4` from `array` in *row-major* order
     pub fn from_array_row_major(array:[f32;16]) -> Self {
         Self{
             data:[
@@ -179,7 +186,7 @@ impl Matrix4x4 {
         ]
     }
 
-    /// Index `Matrix4x4` with row and column index instead of 1D index
+    /// Index `Matrix4x4` with `row` and `column` index instead of 1D index
     /// 
     /// Returns: `reference` to value at given index
     pub fn nm_index( &self, row:usize, column:usize ) -> &f32 {
@@ -187,7 +194,7 @@ impl Matrix4x4 {
         &self[row + (column * 4)]
     }
 
-    /// Index `Matrix4x4` with row and column index instead of 1D index
+    /// Index `Matrix4x4` with `row` and `column` index instead of 1D index
     /// 
     /// Returns: `mutable reference` to value at given index
     pub fn nm_mut_index( &mut self, row:usize, column:usize ) -> &mut f32 {
@@ -227,7 +234,7 @@ impl Display for Matrix4x4 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "Matrix4x4:\n   {} {} {} {}\n   {} {} {} {}\n   {} {} {} {}\n   {} {} {} {}",
+            "Matrix4x4:\n   {:7.2} {:7.2} {:7.2} {:7.2}\n   {:7.2} {:7.2} {:7.2} {:7.2}\n   {:7.2} {:7.2} {:7.2} {:7.2}\n   {:7.2} {:7.2} {:7.2} {:7.2}",
             self[0], self[4], self[8],  self[12],
             self[1], self[5], self[9],  self[13],
             self[2], self[6], self[10], self[14],
@@ -328,24 +335,43 @@ impl Mul<Self> for Matrix4x4 {
 
 }
 
-/// `Matrix4x4` with all cells set to **0.0**
-pub const MATRIX4X4_ZERO:Matrix4x4 = Matrix4x4 {
-    data: [
-        0.0,0.0,0.0,0.0,
-        0.0,0.0,0.0,0.0,
-        0.0,0.0,0.0,0.0,
-        0.0,0.0,0.0,0.0,
-    ]
-};
-
-/// `Matrix4x4` with diagonals set to **1.0**
-/// 
-/// Useful starting point for graphics-related calculations.
-pub const MATRIX4X4_IDENTITY:Matrix4x4 = Matrix4x4 {
-    data: [
-        1.0,0.0,0.0,0.0,
-        0.0,1.0,0.0,0.0,
-        0.0,0.0,1.0,0.0,
-        0.0,0.0,0.0,1.0,
-    ]
-};
+pub mod consts {
+    use super::Matrix4x4;
+    /// `Matrix4x4` with all cells set to **0.0**
+    /// 
+    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
+    /// 
+    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
+    /// 
+    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
+    /// 
+    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
+    pub const MATRIX4X4_ZERO:Matrix4x4 = Matrix4x4 {
+        data: [
+            0.0,0.0,0.0,0.0,
+            0.0,0.0,0.0,0.0,
+            0.0,0.0,0.0,0.0,
+            0.0,0.0,0.0,0.0,
+        ]
+    };
+    
+    /// `Matrix4x4` with diagonal cells set to **1.0**
+    /// 
+    /// Useful for graphics-related calculations.
+    /// 
+    /// `1.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
+    /// 
+    /// `0.0`&nbsp;&nbsp;`1.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
+    /// 
+    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`1.0`&nbsp;&nbsp;`0.0`
+    /// 
+    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`1.0`
+    pub const MATRIX4X4_IDENTITY:Matrix4x4 = Matrix4x4 {
+        data: [
+            1.0,0.0,0.0,0.0,
+            0.0,1.0,0.0,0.0,
+            0.0,0.0,1.0,0.0,
+            0.0,0.0,0.0,1.0,
+        ]
+    };
+}

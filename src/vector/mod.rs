@@ -1,30 +1,17 @@
 mod vector2;
 pub use vector2::{
     Vector2,
-    VECTOR2_ZERO ,
-    VECTOR2_ONE  ,
-    VECTOR2_LEFT ,
-    VECTOR2_RIGHT,
-    VECTOR2_UP   ,
-    VECTOR2_DOWN ,
+    consts as Vector2_consts,
 };
 mod vector3;
 pub use vector3::{
     Vector3,
-    VECTOR3_ZERO   ,
-    VECTOR3_ONE    ,
-    VECTOR3_LEFT   ,
-    VECTOR3_RIGHT  ,
-    VECTOR3_UP     ,
-    VECTOR3_DOWN   ,
-    VECTOR3_FORWARD,
-    VECTOR3_BACK   ,
+    consts as Vector3_consts,
 };
 mod vector4;
 pub use vector4::{
     Vector4,
-    VECTOR4_ZERO,
-    VECTOR4_ONE,
+    consts as Vector4_consts,
 };
 
 impl From<Vector3> for Vector2 {

@@ -3,26 +3,31 @@ use core::ops::{
     Add, Sub, Mul, Div, Neg, Index, IndexMut
 };
 
-/// `Vector3` with components set to **0.0**
-pub const VECTOR3_ZERO   :Vector3 = Vector3{ components:[ 0.0,  0.0,  0.0] };
-/// `Vector3` with components set to **1.0**
-pub const VECTOR3_ONE    :Vector3 = Vector3{ components:[ 1.0,  1.0,  1.0] };
-/// `Vector3` with **-1.0** in the `x` component
-pub const VECTOR3_LEFT   :Vector3 = Vector3{ components:[-1.0,  0.0,  0.0] };
-/// `Vector3` with **1.0** in the `x` component
-pub const VECTOR3_RIGHT  :Vector3 = Vector3{ components:[ 1.0,  0.0,  0.0] };
-/// `Vector3` with **1.0** in the `y` component
-pub const VECTOR3_UP     :Vector3 = Vector3{ components:[ 0.0,  1.0,  0.0] };
-/// `Vector3` with **-1.0** in the `y` component
-pub const VECTOR3_DOWN   :Vector3 = Vector3{ components:[ 0.0, -1.0,  0.0] };
-/// `Vector3` with **1.0** in the `z` component
-pub const VECTOR3_FORWARD:Vector3 = Vector3{ components:[ 0.0,  0.0,  1.0] };
-/// `Vector3` with **-1.0** in the `z` component
-pub const VECTOR3_BACK   :Vector3 = Vector3{ components:[ 0.0,  0.0, -1.0] };
+pub mod consts {
+    use super::Vector3;
+    /// `Vector3` with components set to **0.0**
+    pub const VECTOR3_ZERO   :Vector3 = Vector3{ components:[ 0.0,  0.0,  0.0] };
+    /// `Vector3` with components set to **1.0**
+    pub const VECTOR3_ONE    :Vector3 = Vector3{ components:[ 1.0,  1.0,  1.0] };
+    /// `Vector3` with **-1.0** in the `x` component
+    pub const VECTOR3_LEFT   :Vector3 = Vector3{ components:[-1.0,  0.0,  0.0] };
+    /// `Vector3` with **1.0** in the `x` component
+    pub const VECTOR3_RIGHT  :Vector3 = Vector3{ components:[ 1.0,  0.0,  0.0] };
+    /// `Vector3` with **1.0** in the `y` component
+    pub const VECTOR3_UP     :Vector3 = Vector3{ components:[ 0.0,  1.0,  0.0] };
+    /// `Vector3` with **-1.0** in the `y` component
+    pub const VECTOR3_DOWN   :Vector3 = Vector3{ components:[ 0.0, -1.0,  0.0] };
+    /// `Vector3` with **1.0** in the `z` component
+    pub const VECTOR3_FORWARD:Vector3 = Vector3{ components:[ 0.0,  0.0,  1.0] };
+    /// `Vector3` with **-1.0** in the `z` component
+    pub const VECTOR3_BACK   :Vector3 = Vector3{ components:[ 0.0,  0.0, -1.0] };
+}
 
 /// 3-component Vector
 /// 
 /// Indexable with **[ ]**
+/// 
+/// Implements: `Clone`, `Copy`, `PartialEq`, `Debug`
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct Vector3 {
     components:[f32;3]
@@ -119,7 +124,7 @@ impl Vector3 {
     }
 
     // =============================== &mut self =====================================
-    /// Clamp vector's length(`magnitude`) to given length
+    /// Clamp vector's `magnitude` to given `max`
     pub fn clamp_magnitude(&mut self, max:f32) {
         super::clamp_magnitude_components(&mut self.components, max);
     }

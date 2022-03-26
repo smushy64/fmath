@@ -60,21 +60,26 @@ where N:PartialOrd
     return value;
 }
 
-/// Overflows input `f32` between **0.0** and **359.99999**
+/// Overflows input `f32` between **0.0** and **360.0**
 /// 
-/// * Returns: `degrees` between **0.0** and **359.99999**
+/// * Returns: `degrees` between **0.0** and **360.0**
 pub fn degrees_overflow( degrees:f32 ) -> f32 {
-    let degrees_abs = degrees.abs();
-    if degrees_abs > 360.0 {
-        return degrees_abs % 360.0;
+    let mut result = degrees;
+
+    if result < 0.0 {
+        result += 360.0;
+    }
+    
+    if result > 360.0 {
+        return result % 360.0;
     } else {
-        return degrees_abs;
+        return result;
     }
 }
 
 /// Adds `lhs` and `rhs` with *overflow* check
 /// 
-/// * Returns: `u8::MAX` if `result` overflows
+/// * Returns: **255** if `result` overflows
 /// 
 /// * Returns: `result` if no overflow occurs
 pub fn u8_add_overflow_max_clamp( lhs:u8, rhs:u8 ) -> u8 {
@@ -102,27 +107,13 @@ pub fn u8_sub_overflow_min_clamp( lhs:u8, rhs:u8 ) -> u8 {
 
 /// Multiplies `lhs` and `rhs` with *overflow* check
 /// 
-/// * Returns: `u8::MAX` if `result` overflows
+/// * Returns: **255** if `result` overflows
 /// 
 /// * Returns: `result` if no overflow occurs
 pub fn u8_mul_overflow_max_clamp( lhs:u8, rhs:u8 ) -> u8 {
     let ( result, is_overflowing ) = u8::overflowing_mul(lhs, rhs);
     if is_overflowing {
         return u8::MAX;
-    } else {
-        return result;
-    }
-}
-
-/// Divides `lhs` by `rhs` with *overflow* check
-/// 
-/// * Returns: **0** if `result` overflows
-/// 
-/// * Returns: `result` if no overflow occurs
-pub fn u8_div_overflow_min_clamp( lhs:u8, rhs:u8 ) -> u8 {
-    let ( result, is_overflowing ) = u8::overflowing_div(lhs, rhs);
-    if is_overflowing {
-        return 0_u8;
     } else {
         return result;
     }
