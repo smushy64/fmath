@@ -85,6 +85,23 @@ println!("rgb: {}", rgb);
 
 ```
 
+## How to use
+
+### Include
+
+in Cargo.toml file...
+```rust
+  [dependencies]
+  fmath = { git = "https://github.com/smushy64/fmath.git" }
+```
+
+### Documentation
+
+build documentation with *cargo docs* in the command line
+```
+  cargo docs
+```
+
 ## Library Contains...
 
 ### Functions
@@ -113,3 +130,7 @@ println!("rgb: {}", rgb);
     - Vector3 (struct) ( f32;3 )
     - Vector4 (struct) ( f32;4 )
   - Matrix4x4 (struct) ( f32;16 )
+
+## To-Do
+
+- publish to crates.io :P
