@@ -36,6 +36,11 @@ pub struct Matrix4x4 {
 
 impl Matrix4x4 {
 
+    /// Creates a new `Matrix4x4` with all cells set to 0.0
+    pub fn new() -> Self {
+        MATRIX4X4_ZERO.clone()
+    }
+
     /// Creates a new `Matrix4x4` for **transforming** coordinates
     /// 
     /// `t`: translation

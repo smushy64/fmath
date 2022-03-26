@@ -2,7 +2,11 @@
 name = "fmath"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
+authors = ["Alicia <smushybusiness@gmail.com>"]
+description = "A math library for my personal projects"
+readme = "README.md"
+homepage = "https://github.com/smushy64/fmath"
+repository = "https://github.com/smushy64/fmath"
+license = "MIT"
+keywords = ["math"]
+categories = ["Mathematics", "Data structures", "Game development"]

@@ -92,7 +92,7 @@ println!("rgb: {}", rgb);
 in Cargo.toml file...
 ```rust
   [dependencies]
-  fmath = { git = "https://github.com/smushy64/fmath.git" }
+  fmath = "0.1.0"
 ```
 
 ### Documentation
@@ -130,7 +130,3 @@ build documentation with *cargo doc* in the command line
     - Vector3 (struct) ( f32;3 )
     - Vector4 (struct) ( f32;4 )
   - Matrix4x4 (struct) ( f32;16 )
-
-## To-Do
-
-- publish to crates.io :P
