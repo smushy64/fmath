@@ -1,0 +1,37 @@
+# TO DO - 0.2.2
+- make conversion between related types more consistent
+- maybe make a u8 wrapper struct instead of using functions?
+- Re-organize modules
+  - types ( ::* sould imports all structs )
+    - vector
+      - Vector2
+      - Vector3
+      - Vector4
+    - matrix
+      - Matrix4x4
+    - color
+      - RGB
+      - RGBA
+      - RGB8
+      - RGBA8
+      - HSV
+    - angle
+      - angle enum
+      - radians to degrees
+      - degrees to radians
+      - degrees_overflow
+  - constants ( ::* should import all consts )
+    - vector
+    - matrix
+    - color
+  - functions
+    - hexadecimal
+      - encode
+      - decode
+    - u8
+      - add_overflow_max_clamp
+      - mul_overflow_max_clamp
+      - sub_overflow_min_clamp
+    - clamp
+    - min
+    - max
