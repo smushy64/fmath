@@ -3,13 +3,12 @@ use core::ops::{
     Add, Sub, Mul, Div, Neg, Index, IndexMut
 };
 
-pub mod consts {
-    use super::Vector4;
-    /// `Vector4` with components set to **0.0**
-    pub const VECTOR4_ZERO:Vector4 = Vector4{ components:[ 0.0,  0.0,  0.0, 0.0 ] };
-    /// `Vector4` with components set to **1.0**
-    pub const VECTOR4_ONE :Vector4 = Vector4{ components:[ 1.0,  1.0,  1.0, 1.0 ] };
-}
+use super::{
+    Vector2,
+    Vector3
+};
+
+use crate::functions::clamp;
 
 /// 4-component Vector
 /// 
@@ -22,6 +21,17 @@ pub struct Vector4 {
 }
 
 impl Vector4 {
+
+    /// Create new `Vector4` with `x`, `y`, `z` and `w` set to **1.0**
+    pub fn new_one() -> Self {
+        Self::new(1.0, 1.0, 1.0, 1.0)
+    }
+
+    /// Create new `Vector4` with `x`, `y`, `z` and `w` set to **0.0**
+    pub fn new_zero() -> Self {
+        Self::new(0.0, 0.0, 0.0, 0.0)
+    }
+
     /// Create new `Vector4` with given `x`, `y`, `z` and `w` components
     pub fn new( x:f32, y:f32, z:f32, w:f32 ) -> Self {
         Self {
@@ -145,7 +155,7 @@ impl Vector4 {
     /// 
     /// Returns: new `Vector4` with values between `a` and `b`
     pub fn lerp( a:&Self, b:&Self, t:f32 ) -> Self {
-        Self::lerp_unclamped(a, b, crate::clamp(t, 0.0, 1.0))
+        Self::lerp_unclamped(a, b, clamp(t, 0.0, 1.0))
     }
 
     /// Linearly interpolate from `a` to `b`
@@ -198,6 +208,24 @@ impl Display for Vector4 {
         write!( f, 
             "Vector 4: {}, {}, {}, {}", self.x(), self.y(), self.z(), self.w()
         )
+    }
+}
+
+/// Create new `Vector4` from `Vector2`
+/// 
+/// `z` and `w` components are set to **0.0**
+impl From<Vector2> for Vector4 {
+    fn from(v: Vector2) -> Self {
+        Self::new(v[0], v[1], 0.0, 0.0)
+    }
+}
+
+/// Create new `Vector4` from `Vector3`
+/// 
+/// `w` component is set to **0.0**
+impl From<Vector3> for Vector4 {
+    fn from(v: Vector3) -> Self {
+        Self::new(v[0], v[1], v[2], 0.0)
     }
 }
 

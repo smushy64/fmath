@@ -1,42 +1,15 @@
 mod vector2;
 pub use vector2::{
     Vector2,
-    consts as Vector2_consts,
 };
 mod vector3;
 pub use vector3::{
     Vector3,
-    consts as Vector3_consts,
 };
 mod vector4;
 pub use vector4::{
     Vector4,
-    consts as Vector4_consts,
 };
-
-impl From<Vector3> for Vector2 {
-    fn from(v:Vector3) -> Self {
-        Self::from_array([v[0], v[1]])
-    }
-}
-
-impl From<Vector2> for Vector3 {
-    fn from(v:Vector2) -> Self {
-        Self::from_array([v[0], v[1], 0.0])
-    }
-}
-
-impl From<Vector4> for Vector3 {
-    fn from(v:Vector4) -> Self {
-        Self::from_array([v[0], v[1], v[2]])
-    }
-}
-
-impl From<Vector3> for Vector4 {
-    fn from(v:Vector3) -> Self {
-        Self::from_array([v[0], v[1], v[2], 0.0])
-    }
-}
 
 fn negate_components( v:&mut [f32] ) {
     let mut i = 0;

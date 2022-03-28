@@ -1,17 +1,16 @@
 use core::fmt::Display;
-use crate::{
-    degrees_overflow,
+use crate::functions::{
+    angles::degrees_overflow,
     clamp,
     max, min,
 };
 
 use super::{
-    ColorRGB,
-    ColorRGB8,
-    ColorRGBA,
-    ColorRGBA8,
+    RGB,
+    RGB8,
+    RGBA,
+    RGBA8,
     color_byte_to_color_float,
-    color_float_to_color_byte,
 };
 
 /// Color representation using `Hue`, `Saturation` and `Value`
@@ -21,14 +20,35 @@ use super::{
 /// `Saturation`: **0.0**-**1.0**
 /// 
 /// `Value`: **0.0**-**1.0**
-pub struct ColorHSV {
+pub struct HSV {
     hue:f32,
     saturation:f32,
     value:f32
 }
 
-impl ColorHSV {
-    /// Create new `ColorHSV` from `hue`, `saturation` and `value`
+impl HSV {
+
+    /// Create `HSV` from `RGBA`
+    /// 
+    /// `a` component is **lost** in conversion!
+    pub fn from_rgba(c:RGBA) -> Self {
+        let rgba = c.as_array();
+        Self::from_rgb_array(&[rgba[0], rgba[1], rgba[2]])
+    }
+
+    /// Create `HSV` from `RGBA8`
+    /// 
+    /// `a` component is **lost** in conversion!
+    pub fn from_rgba8(c:RGBA8) -> Self {
+        let rgba = c.as_array();
+        Self::from_rgb_array(&[
+            color_byte_to_color_float(rgba[0]),
+            color_byte_to_color_float(rgba[1]),
+            color_byte_to_color_float(rgba[2]),
+        ])
+    }
+
+    /// Create new `HSV` from `hue`, `saturation` and `value`
     /// 
     /// `hue` is overflowed between **0.0** and **360.0**
     /// 
@@ -43,8 +63,8 @@ impl ColorHSV {
         }
     }
 
-    /// Creates new `ColorHSV` from **0.0**-**1.0** RGB array
-    pub fn from_rgb_array( rgb:&[f32;3] ) -> Self {
+    /// Creates new `HSV` from **0.0**-**1.0** RGB array
+    pub(crate) fn from_rgb_array( rgb:&[f32;3] ) -> Self {
 
         let x_max = max( rgb ); // value
         let x_min = min( rgb ); // value - chroma
@@ -74,8 +94,8 @@ impl ColorHSV {
         Self::new( hue, saturation, x_max )
     }
 
-    /// Converts `ColorHSV` to 3 component `f32` `array`
-    pub fn as_rgb_array(&self) -> [f32;3] {
+    /// Converts `HSV` to 3 component `f32` `array`
+    pub(crate) fn as_rgb_array(&self) -> [f32;3] {
 
         let value = self.value().clone();
 
@@ -106,38 +126,6 @@ impl ColorHSV {
         let m = value - chroma;
 
         [r + m, g + m, b + m]
-    }
-
-    /// Converts `ColorHSV` to `ColorRGB`
-    pub fn as_rgb(&self) -> ColorRGB {
-        ColorRGB::from_array(self.as_rgb_array())
-    }
-
-    /// Converts `ColorHSV` to `ColorRGB8`
-    pub fn as_rgb8(&self) -> ColorRGB8 {
-        let c = self.as_rgb_array();
-        ColorRGB8::from_array([
-            color_float_to_color_byte(c[0]),
-            color_float_to_color_byte(c[1]),
-            color_float_to_color_byte(c[2]),
-        ])
-    }
-
-    /// Converts `ColorHSV` to `ColorRGBA`
-    pub fn as_rgba(&self) -> ColorRGBA {
-        let c = self.as_rgb_array();
-        ColorRGBA::from_array([ c[0], c[1], c[2], 1.0 ])
-    }
-
-    /// Converts `ColorHSV` to `ColorRGBA8`
-    pub fn as_rgba8(&self) -> ColorRGBA8 {
-        let c = self.as_rgb_array();
-        ColorRGBA8::from_array([
-            color_float_to_color_byte(c[0]),
-            color_float_to_color_byte(c[1]),
-            color_float_to_color_byte(c[2]),
-            255
-        ])
     }
 
     /// Returns: `reference` to `hue` component
@@ -178,44 +166,28 @@ impl ColorHSV {
 
 }
 
-impl Display for ColorHSV {
+impl Display for HSV {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "ColorHSV: Hue: {}°, Saturation: {}%, Value: {}%",
+            "HSV: Hue: {}°, Saturation: {}%, Value: {}%",
             self.hue(), self.saturation() * 100.0, self.value() * 100.0
         )
     }
 }
 
-impl From<ColorRGB> for ColorHSV {
-    fn from(c: ColorRGB) -> Self {
+impl From<RGB> for HSV {
+    fn from(c:RGB) -> Self {
         Self::from_rgb_array(c.as_array())
     }
 }
 
-impl From<ColorRGB8> for ColorHSV {
-    fn from(c: ColorRGB8) -> Self {
+impl From<RGB8> for HSV {
+    fn from(c:RGB8) -> Self {
         Self::from_rgb_array(&[
             color_byte_to_color_float(c[0]),
             color_byte_to_color_float(c[1]),
             color_byte_to_color_float(c[2]),
-        ])
-    }
-}
-
-impl From<ColorRGBA> for ColorHSV {
-    fn from(c: ColorRGBA) -> Self {
-        Self::from_rgb_array(&[ c[0], c[1], c[2], ])
-    }
-}
-
-impl From<ColorRGBA8> for ColorHSV {
-    fn from(c: ColorRGBA8) -> Self {
-        Self::from_rgb_array(&[
-            color_byte_to_color_float( c[0] ),
-            color_byte_to_color_float( c[1] ),
-            color_byte_to_color_float( c[2] ),
         ])
     }
 }

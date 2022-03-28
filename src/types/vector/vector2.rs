@@ -3,21 +3,12 @@ use core::ops::{
     Add, Sub, Mul, Div, Neg, Index, IndexMut
 };
 
-pub mod consts {
-    use super::Vector2;
-    /// `Vector2` with components set to **0.0**
-    pub const VECTOR2_ZERO :Vector2 = Vector2{ components:[ 0.0,  0.0] };
-    /// `Vector2` with components set to **1.0**
-    pub const VECTOR2_ONE  :Vector2 = Vector2{ components:[ 1.0,  1.0] };
-    /// `Vector2` with **-1.0** in the `x` component
-    pub const VECTOR2_LEFT :Vector2 = Vector2{ components:[-1.0,  0.0] };
-    /// `Vector2` with **1.0** in the `x` component
-    pub const VECTOR2_RIGHT:Vector2 = Vector2{ components:[ 1.0,  0.0] };
-    /// `Vector2` with **1.0** in the `y` component
-    pub const VECTOR2_UP   :Vector2 = Vector2{ components:[ 0.0,  1.0] };
-    /// `Vector2` with **-1.0** in the `y` component
-    pub const VECTOR2_DOWN :Vector2 = Vector2{ components:[ 0.0, -1.0] };
-}
+use super::{
+    Vector3,
+    Vector4
+};
+
+use crate::functions::clamp;
 
 /// 2-component Vector
 /// 
@@ -30,11 +21,60 @@ pub struct Vector2 {
 }
 
 impl Vector2 {
+
     /// Create new `Vector2` with given `x` and `y` components
     pub fn new( x:f32, y:f32 ) -> Self {
         Self {
             components:[x,y]
         }
+    }
+
+    /// Create new `Vector2` with `x` and `y` set to **1.0**
+    pub fn new_one() -> Self {
+        Self::new(1.0, 1.0)
+    }
+
+    /// Create new `Vector2` with `x` and `y` set to **0.0**
+    pub fn new_zero() -> Self {
+        Self::new(0.0, 0.0)
+    }
+
+    /// Create new `Vector2` with `x` set to **1.0** and `y` set to **0.0**
+    pub fn new_right() -> Self {
+        Self::new(1.0, 0.0)
+    }
+
+    /// Create new `Vector2` with `x` set to **-1.0** and `y` set to **0.0**
+    pub fn new_left() -> Self {
+        Self::new(-1.0, 0.0)
+    }
+
+    /// Create new `Vector2` with `x` set to **0.0** and `y` set to **1.0**
+    pub fn new_up() -> Self {
+        Self::new(0.0, 1.0)
+    }
+
+    /// Create new `Vector2` with `x` set to **0.0** and `y` set to **-1.0**
+    pub fn new_down() -> Self {
+        Self::new(0.0, -1.0)
+    }
+
+    /// Create new `Vector2` from `Vector3`
+    /// 
+    /// moves input *Vector*
+    /// 
+    /// `z` component is **lost** in conversion!
+    pub fn from_vector3( v:Vector3 ) -> Self {
+        Self::new(v[0], v[1])
+    }
+
+    /// Create new `Vector2` from `Vector4`
+    /// 
+    /// moves input *Vector*
+    /// 
+    /// `z` and `w` components are **lost** in conversion!
+    pub fn from_vector4( v:Vector4 ) -> Self {
+        Self::new(v[0], v[1])
     }
 
     /// Create new `Vector2` from 2-component `array`
@@ -129,7 +169,7 @@ impl Vector2 {
     /// 
     /// Returns: new `Vector2` with values between `a` and `b`
     pub fn lerp( a:&Self, b:&Self, t:f32 ) -> Self {
-        Self::lerp_unclamped(a, b, crate::clamp(t, 0.0, 1.0))
+        Self::lerp_unclamped(a, b, clamp(t, 0.0, 1.0))
     }
 
     /// Linearly interpolate from `a` to `b`

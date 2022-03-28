@@ -3,25 +3,12 @@ use core::ops::{
     Add, Sub, Mul, Div, Neg, Index, IndexMut
 };
 
-pub mod consts {
-    use super::Vector3;
-    /// `Vector3` with components set to **0.0**
-    pub const VECTOR3_ZERO   :Vector3 = Vector3{ components:[ 0.0,  0.0,  0.0] };
-    /// `Vector3` with components set to **1.0**
-    pub const VECTOR3_ONE    :Vector3 = Vector3{ components:[ 1.0,  1.0,  1.0] };
-    /// `Vector3` with **-1.0** in the `x` component
-    pub const VECTOR3_LEFT   :Vector3 = Vector3{ components:[-1.0,  0.0,  0.0] };
-    /// `Vector3` with **1.0** in the `x` component
-    pub const VECTOR3_RIGHT  :Vector3 = Vector3{ components:[ 1.0,  0.0,  0.0] };
-    /// `Vector3` with **1.0** in the `y` component
-    pub const VECTOR3_UP     :Vector3 = Vector3{ components:[ 0.0,  1.0,  0.0] };
-    /// `Vector3` with **-1.0** in the `y` component
-    pub const VECTOR3_DOWN   :Vector3 = Vector3{ components:[ 0.0, -1.0,  0.0] };
-    /// `Vector3` with **1.0** in the `z` component
-    pub const VECTOR3_FORWARD:Vector3 = Vector3{ components:[ 0.0,  0.0,  1.0] };
-    /// `Vector3` with **-1.0** in the `z` component
-    pub const VECTOR3_BACK   :Vector3 = Vector3{ components:[ 0.0,  0.0, -1.0] };
-}
+use super::{
+    Vector2,
+    Vector4
+};
+
+use crate::functions::clamp;
 
 /// 3-component Vector
 /// 
@@ -46,6 +33,55 @@ impl Vector3 {
         Self {
             components
         }
+    }
+
+    /// Create new `Vector3` with `x`, `y` and `z` set to **1.0**
+    pub fn new_one() -> Self {
+        Self::new(1.0, 1.0, 1.0)
+    }
+
+    /// Create new `Vector3` with `x`, `y` and `z` set to **0.0**
+    pub fn new_zero() -> Self {
+        Self::new(0.0, 0.0, 0.0)
+    }
+
+    /// Create new `Vector3` with `x` set to **1.0**, `y` set to **0.0** and `z` set to **0.0**
+    pub fn new_right() -> Self {
+        Self::new(1.0, 0.0, 0.0)
+    }
+
+    /// Create new `Vector3` with `x` set to **-1.0**, `y` set to **0.0** and `z` set to **0.0**
+    pub fn new_left() -> Self {
+        Self::new(-1.0, 0.0, 0.0)
+    }
+
+    /// Create new `Vector3` with `x` set to **0.0**, `y` set to **1.0** and `z` set to **0.0**
+    pub fn new_up() -> Self {
+        Self::new(0.0, 1.0, 0.0)
+    }
+
+    /// Create new `Vector3` with `x` set to **0.0**, `y` set to **-1.0** and `z` set to **0.0**
+    pub fn new_down() -> Self {
+        Self::new(0.0, -1.0, 0.0)
+    }
+
+    /// Create new `Vector3` with `x` set to **0.0**, `y` set to **0.0** and `z` set to **1.0**
+    pub fn new_forward() -> Self {
+        Self::new(0.0, 0.0, 1.0)
+    }
+
+    /// Create new `Vector3` with `x` set to **0.0**, `y` set to **0.0** and `z` set to **-1.0**
+    pub fn new_back() -> Self {
+        Self::new(0.0, 0.0, -1.0)
+    }
+
+    /// Create new `Vector3` from `Vector4`
+    /// 
+    /// moves input *Vector*
+    /// 
+    /// `w` component is **lost** in conversion!
+    pub fn from_vector4(v:Vector4) -> Self {
+        Self::new(v[0], v[1], v[2])
     }
 
     /// Returns: `reference` to vector's components `array`
@@ -146,7 +182,7 @@ impl Vector3 {
     /// 
     /// Returns: new `Vector3` with values between `a` and `b`
     pub fn lerp( a:&Self, b:&Self, t:f32 ) -> Self {
-        Self::lerp_unclamped(a, b, crate::clamp(t, 0.0, 1.0))
+        Self::lerp_unclamped(a, b, clamp(t, 0.0, 1.0))
     }
 
     /// Linearly interpolate from `a` to `b`
@@ -208,6 +244,15 @@ impl Display for Vector3 {
         write!( f, 
             "Vector 3: {}, {}, {}", self.x(), self.y(), self.z()
         )
+    }
+}
+
+/// Create new `Vector3` from `Vector2`
+/// 
+/// `z` component is set to **0.0**
+impl From<Vector2> for Vector3 {
+    fn from(v:Vector2) -> Self {
+        Self::new(v[0], v[1], 0.0)
     }
 }
 

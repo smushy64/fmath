@@ -1,23 +1,17 @@
-pub use crate::Angle;
-
 use core::fmt::Display;
 use core::ops::{
     Add, Sub, Mul, Div, Index, IndexMut
 };
 use crate::{
-    degrees_to_radians,
-    vector::{
+    functions::angles::degrees_to_radians,
+    types::vector::{
         add_components,
         sub_components,
         scale_components,
         Vector4,
         Vector3,
-    }
-};
-
-use consts::{
-    MATRIX4X4_IDENTITY,
-    MATRIX4X4_ZERO,
+    },
+    types::Angle
 };
 
 /// Data is in *column-major* order
@@ -43,9 +37,28 @@ pub struct Matrix4x4 {
 
 impl Matrix4x4 {
 
-    /// Creates a new `Matrix4x4` with all cells set to 0.0
-    pub fn new() -> Self {
-        MATRIX4X4_ZERO.clone()
+    /// Creates a new `Matrix4x4` with all cells set to **0.0**
+    pub fn new_zero() -> Self {
+        Self {
+            data: [
+                0.0,0.0,0.0,0.0,
+                0.0,0.0,0.0,0.0,
+                0.0,0.0,0.0,0.0,
+                0.0,0.0,0.0,0.0,
+            ]
+        }
+    }
+
+    /// Creates a new `Matrix4x4` with diagonal cells set to **1.0**
+    pub fn new_identity() -> Self {
+        Self {
+            data: [
+                1.0,0.0,0.0,0.0,
+                0.0,1.0,0.0,0.0,
+                0.0,0.0,1.0,0.0,
+                0.0,0.0,0.0,1.0,
+            ]
+        }
     }
 
     /// Creates a new `Matrix4x4` for **transforming** coordinates
@@ -68,7 +81,7 @@ impl Matrix4x4 {
 
     /// Creates a new `Matrix4x4` for **translating** coordinates
     pub fn new_translate( t:&[f32;3] ) -> Self {
-        let mut result = MATRIX4X4_IDENTITY.clone();
+        let mut result = Self::new_identity();
 
         // data indeces( 12, 13, 14 ) are where translation values go
         result.data[12] = t[0];
@@ -101,7 +114,7 @@ impl Matrix4x4 {
     }
 
     fn new_x_rotate( theta_rad:f32 ) -> Self {
-        let mut result = MATRIX4X4_IDENTITY.clone();
+        let mut result = Self::new_identity();
 
         result.data[5]  =  theta_rad.cos();
         result.data[6]  =  theta_rad.sin();
@@ -112,7 +125,7 @@ impl Matrix4x4 {
     }
 
     fn new_y_rotate( theta_rad:f32 ) -> Self {
-        let mut result = MATRIX4X4_IDENTITY.clone();
+        let mut result = Self::new_identity();
 
         result.data[0]  =  theta_rad.cos();
         result.data[2]  = -theta_rad.sin();
@@ -123,7 +136,7 @@ impl Matrix4x4 {
     }
 
     fn new_z_rotate( theta_rad:f32 ) -> Self {
-        let mut result = MATRIX4X4_IDENTITY.clone();
+        let mut result = Self::new_identity();
 
         result.data[0] =  theta_rad.cos();
         result.data[1] =  theta_rad.sin();
@@ -135,7 +148,7 @@ impl Matrix4x4 {
 
     /// Creates a new `Matrix4x4` for scaling coordinates
     pub fn new_scale( s:&[f32;3] ) -> Self {
-        let mut result = MATRIX4X4_IDENTITY.clone();
+        let mut result = Self::new_identity();
 
         // data indeces( 0, 5, 10 ) are where scale values go
         result.data[0]  = s[0];
@@ -261,7 +274,7 @@ impl Add for Matrix4x4 {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
-        let mut result = MATRIX4X4_ZERO.clone();
+        let mut result = Self::new_zero();
         add_components(self.as_array(), rhs.as_array(), result.as_mut_array() );
         return result;
     }
@@ -271,7 +284,7 @@ impl Sub for Matrix4x4 {
     type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        let mut result = MATRIX4X4_ZERO.clone();
+        let mut result = Self::new_zero();
         sub_components(self.as_array(), rhs.as_array(), result.as_mut_array() );
         return result;
     }
@@ -282,7 +295,7 @@ impl Mul<f32> for Matrix4x4 {
     type Output = Self;
 
     fn mul( self, scalar:f32 ) -> Self::Output {
-        let mut result = MATRIX4X4_ZERO.clone();
+        let mut result = Self::new_zero();
         scale_components(self.as_array(), scalar, result.as_mut_array());
         return result;
     }
@@ -294,7 +307,7 @@ impl Div<f32> for Matrix4x4 {
     type Output = Self;
 
     fn div( self, scalar:f32 ) -> Self::Output {
-        let mut result = MATRIX4X4_ZERO.clone();
+        let mut result = Self::new_zero();
         scale_components(self.as_array(), 1.0 / scalar, result.as_mut_array());
         return result;
     }
@@ -333,45 +346,4 @@ impl Mul<Self> for Matrix4x4 {
 
     }
 
-}
-
-pub mod consts {
-    use super::Matrix4x4;
-    /// `Matrix4x4` with all cells set to **0.0**
-    /// 
-    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
-    /// 
-    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
-    /// 
-    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
-    /// 
-    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
-    pub const MATRIX4X4_ZERO:Matrix4x4 = Matrix4x4 {
-        data: [
-            0.0,0.0,0.0,0.0,
-            0.0,0.0,0.0,0.0,
-            0.0,0.0,0.0,0.0,
-            0.0,0.0,0.0,0.0,
-        ]
-    };
-    
-    /// `Matrix4x4` with diagonal cells set to **1.0**
-    /// 
-    /// Useful for graphics-related calculations.
-    /// 
-    /// `1.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
-    /// 
-    /// `0.0`&nbsp;&nbsp;`1.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`
-    /// 
-    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`1.0`&nbsp;&nbsp;`0.0`
-    /// 
-    /// `0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`0.0`&nbsp;&nbsp;`1.0`
-    pub const MATRIX4X4_IDENTITY:Matrix4x4 = Matrix4x4 {
-        data: [
-            1.0,0.0,0.0,0.0,
-            0.0,1.0,0.0,0.0,
-            0.0,0.0,1.0,0.0,
-            0.0,0.0,0.0,1.0,
-        ]
-    };
 }

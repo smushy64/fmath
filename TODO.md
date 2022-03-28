@@ -1,36 +1,33 @@
 # TO DO - 0.2.2 - public interface heavily affected
-- [ ] include links to TODO.md and CHANGELOG.md in README.md
-- [ ] re-write example to reflect changes
-- [ ] Re-organize modules
-  - [ ] types ( ::* should imports all structs )
-    - [ ] vector
-      - [ ] Vector2
-      - [ ] Vector3
-      - [ ] Vector4
-    - [ ] matrix
-      - [ ] Matrix4x4
-    - [ ] color ( remove "Color" prefix from each type )
-      - [ ] RGB
-      - [ ] RGBA
-      - [ ] RGB8
-      - [ ] RGBA8
-      - [ ] HSV
-    - [ ] angle
-      - [ ] angle enum
-      - [ ] radians to degrees
-      - [ ] degrees to radians
-      - [ ] degrees_overflow
-    - [ ] clamped_u8 - u8 wrapper struct instead of using functions
-      - [ ] add_overflow_max_clamp
-      - [ ] mul_overflow_max_clamp
-      - [ ] sub_overflow_min_clamp
-  - [ ] functions
-    - [ ] hexadecimal
-      - [ ] encode
-      - [ ] decode
-    - [ ] clamp
-    - [ ] min
-    - [ ] max
+- [x] include links to TODO.md and CHANGELOG.md in README.md
+- [x] re-write example to reflect changes
+- [x] Re-organize modules
+  - [x] types ( ::* should imports all structs )
+    - [x] vector
+      - [x] Vector2
+      - [x] Vector3
+      - [x] Vector4
+    - [x] matrix
+      - [x] Matrix4x4
+    - [x] color ( remove "Color" prefix from each type )
+      - [x] RGB
+      - [x] RGBA
+      - [x] RGB8
+      - [x] RGBA8
+      - [x] HSV
+    - [x] angle
+      - [x] angle enum
+  - [x] functions
+    - [x] hexadecimal
+      - [x] encode
+      - [x] decode
+    - [x] clamp
+    - [x] min
+    - [x] max
+    - [x] angles
+      - [x] radians to degrees
+      - [x] degrees to radians
+      - [x] degrees_overflow
 - [x] make conversion between related types more consistent
   - [x] larger vectors should have an "implicit" function ( impl *from* ) to convert from smaller vector
     - [x] Vector2 -> Vector3

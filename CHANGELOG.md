@@ -1,3 +1,16 @@
+# 0.2.2
+## Major public API changes
+- Changed the way modules are organized
+  - lib -> types and functions
+    - types -> Vector2-4, Matrix4x4, Colors
+    - functions -> clamp, min, max, etc.
+- Re-wrote type conversions ( impl From ) so that they're much more consistent
+  - smaller data types do not have a From impl for converting from larger data types, they have a function that explicitly states that information is lost during conversion
+  - larger data types do have a From impl for converting from smaller data types because there is no information loss
+- Consts are now implemented as static constructors for each data type so you no longer have to import *_consts to use them
+- Various documention changes
+- Various README changes
+
 # 0.2.1
 ## Minor Changes
 - Changed LICENSE from MIT to MIT-0

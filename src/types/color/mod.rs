@@ -2,19 +2,27 @@
 
 mod rgb8;
 pub use rgb8::{
-    ColorRGB8,
-    ColorRGBA8,
+    RGB8,
+};
+
+mod rgba8;
+pub use rgba8::{
+    RGBA8,
 };
 
 mod rgb;
 pub use rgb::{
-    ColorRGB,
-    ColorRGBA,
+    RGB,
+};
+
+mod rgba;
+pub use rgba::{
+    RGBA
 };
 
 mod hsv;
 pub use hsv::{
-    ColorHSV
+    HSV
 };
 
 pub(crate) fn color_byte_to_color_float( byte:u8 ) -> f32 {
