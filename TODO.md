@@ -1,8 +1,6 @@
-# TO DO - 0.2.2
-- [ ] make conversion between related types more consistent
-- [ ] maybe make a u8 wrapper struct instead of using functions?
+# TO DO - 0.3.0 - public interface heavily affected
 - [ ] Re-organize modules
-  - [ ] types ( ::* sould imports all structs )
+  - [ ] types ( ::* should imports all structs )
     - [ ] vector
       - [ ] Vector2
       - [ ] Vector3
@@ -20,18 +18,61 @@
       - [ ] radians to degrees
       - [ ] degrees to radians
       - [ ] degrees_overflow
-  - [ ] constants ( ::* should import all consts )
-    - [ ] vector
-    - [ ] matrix
-    - [ ] color
+    - [ ] clamped u8
   - [ ] functions
     - [ ] hexadecimal
       - [ ] encode
       - [ ] decode
-    - [ ] u8
-      - [ ] add_overflow_max_clamp
-      - [ ] mul_overflow_max_clamp
-      - [ ] sub_overflow_min_clamp
     - [ ] clamp
     - [ ] min
     - [ ] max
+
+# TO DO - 0.2.2
+- [ ] make conversion between related types more consistent
+  - [ ] smaller vectors should have an "implicit" function ( impl *from* ) to convert to larger vector
+    - [ ] Vector2 -> Vector3
+    - [ ] Vector3 -> Vector4
+  - [ ] larger vectors should have an *explicit* function ( **not** impl *from* ) to convert to smaller vector
+    - [ ] Vector4 -> Vector3
+    - [ ] Vector3 -> Vector2
+  - [ ] RGB8  <-> RGB  should have an "implicit" function ( impl *from* )
+  - [ ] RGBA8 <-> RGBA should have an "implicit" function ( impl *from* )
+  - [ ] RGB   <-> HSV  should have an "implicit" function ( impl *from* )
+  - [ ] Color_u8 <-> Color_f32 should have an *explicit* function ( **not** impl *from* )
+  - [ ] RGBA <-> HSV should have an *explicit* function ( **not** impl *from* )
+- [ ] Consts should be static "constructors" for each type
+  - [ ] Vector2
+    - [ ] new_one
+    - [ ] new_zero
+    - [ ] new_left
+    - [ ] new_right
+    - [ ] new_up
+    - [ ] new_down
+  - [ ] Vector3
+    - [ ] new_one
+    - [ ] new_zero
+    - [ ] new_left
+    - [ ] new_right
+    - [ ] new_up
+    - [ ] new_down
+    - [ ] new_forward
+    - [ ] new_back
+  - [ ] Vector4
+    - [ ] new_one
+    - [ ] new_zero
+  - [ ] Colors ( for RGBA/RGBA8, alpha = 1.0/255 )
+    - [ ] new_red
+    - [ ] new_green
+    - [ ] new_blue
+    - [ ] new_yellow
+    - [ ] new_cyan
+    - [ ] new_magenta
+    - [ ] new_white
+    - [ ] new_black
+  - [ ] Colors with alpha
+    - [ ] new_clear
+- [ ] u8 wrapper struct instead of using functions
+  - [ ] clamped_u8
+    - [ ] add_overflow_max_clamp
+    - [ ] mul_overflow_max_clamp
+    - [ ] sub_overflow_min_clamp
