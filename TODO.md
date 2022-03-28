@@ -1,3 +1,16 @@
+# TO DO - 0.3.0 - add new functions and types
+- [ ] new functions
+  - [ ] generic lerp( a, b, t ) numbers or vectors
+    - ( 1 - t ) * a + b * t
+  - [ ] generic inverse lerp( a, b, v ) numbers only
+    - ( v - a ) / ( b - a )
+  - [ ] remap( min1, max1, min2, max2, v ) numbers only
+    - lerp( min2, max2, inverse_lerp( min1, max1, v ) )
+  - [ ] perlin_noise_*n*d( x, y, optional z ) 2-3 dimensions
+  - [ ] simplex_noise_*n*d( x, y, optional z ) 2-3 dimensions
+- [ ] new types
+  - [ ] quaternion
+
 # TO DO - 0.2.2 - public interface heavily affected
 - [x] include links to TODO.md and CHANGELOG.md in README.md
 - [x] re-write example to reflect changes
