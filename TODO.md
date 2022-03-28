@@ -27,7 +27,11 @@
     - [ ] min
     - [ ] max
 
+# TO DO - 0.2.3
+- [ ] re-write documentation in accordance to new changes and explain crate better
+
 # TO DO - 0.2.2
+- [ ] include links to TODO.md and CHANGELOG.md in README.md
 - [ ] make conversion between related types more consistent
   - [ ] smaller vectors should have an "implicit" function ( impl *from* ) to convert to larger vector
     - [ ] Vector2 -> Vector3
