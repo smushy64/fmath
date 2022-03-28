@@ -1,10 +1,10 @@
 # TO DO - 0.3.0 - add new functions and types
 - [ ] new functions
-  - [ ] generic lerp( a, b, t ) numbers or vectors
+  - [x] lerp( a, b, t ) f32
     - ( 1 - t ) * a + b * t
-  - [ ] generic inverse lerp( a, b, v ) numbers only
+  - [x] inverse lerp( a, b, v ) f32
     - ( v - a ) / ( b - a )
-  - [ ] remap( min1, max1, min2, max2, v ) numbers only
+  - [x] remap( min1, max1, min2, max2, v ) f32
     - lerp( min2, max2, inverse_lerp( min1, max1, v ) )
   - [ ] perlin_noise_*n*d( x, y, optional z ) 2-3 dimensions
   - [ ] simplex_noise_*n*d( x, y, optional z ) 2-3 dimensions
