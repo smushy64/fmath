@@ -1,4 +1,6 @@
-# TO DO - 0.3.0 - public interface heavily affected
+# TO DO - 0.2.2 - public interface heavily affected
+- [ ] include links to TODO.md and CHANGELOG.md in README.md
+- [ ] re-write example to reflect changes
 - [ ] Re-organize modules
   - [ ] types ( ::* should imports all structs )
     - [ ] vector
@@ -7,7 +9,7 @@
       - [ ] Vector4
     - [ ] matrix
       - [ ] Matrix4x4
-    - [ ] color
+    - [ ] color ( remove "Color" prefix from each type )
       - [ ] RGB
       - [ ] RGBA
       - [ ] RGB8
@@ -18,7 +20,10 @@
       - [ ] radians to degrees
       - [ ] degrees to radians
       - [ ] degrees_overflow
-    - [ ] clamped u8
+    - [ ] clamped_u8 - u8 wrapper struct instead of using functions
+      - [ ] add_overflow_max_clamp
+      - [ ] mul_overflow_max_clamp
+      - [ ] sub_overflow_min_clamp
   - [ ] functions
     - [ ] hexadecimal
       - [ ] encode
@@ -26,57 +31,55 @@
     - [ ] clamp
     - [ ] min
     - [ ] max
-
-# TO DO - 0.2.3
-- [ ] re-write documentation in accordance to new changes and explain crate better
-
-# TO DO - 0.2.2
-- [ ] include links to TODO.md and CHANGELOG.md in README.md
-- [ ] make conversion between related types more consistent
-  - [ ] smaller vectors should have an "implicit" function ( impl *from* ) to convert to larger vector
-    - [ ] Vector2 -> Vector3
-    - [ ] Vector3 -> Vector4
-  - [ ] larger vectors should have an *explicit* function ( **not** impl *from* ) to convert to smaller vector
-    - [ ] Vector4 -> Vector3
-    - [ ] Vector3 -> Vector2
-  - [ ] RGB8  <-> RGB  should have an "implicit" function ( impl *from* )
-  - [ ] RGBA8 <-> RGBA should have an "implicit" function ( impl *from* )
-  - [ ] RGB   <-> HSV  should have an "implicit" function ( impl *from* )
-  - [ ] Color_u8 <-> Color_f32 should have an *explicit* function ( **not** impl *from* )
-  - [ ] RGBA <-> HSV should have an *explicit* function ( **not** impl *from* )
-- [ ] Consts should be static "constructors" for each type
-  - [ ] Vector2
-    - [ ] new_one
-    - [ ] new_zero
-    - [ ] new_left
-    - [ ] new_right
-    - [ ] new_up
-    - [ ] new_down
-  - [ ] Vector3
-    - [ ] new_one
-    - [ ] new_zero
-    - [ ] new_left
-    - [ ] new_right
-    - [ ] new_up
-    - [ ] new_down
-    - [ ] new_forward
-    - [ ] new_back
-  - [ ] Vector4
-    - [ ] new_one
-    - [ ] new_zero
-  - [ ] Colors ( for RGBA/RGBA8, alpha = 1.0/255 )
-    - [ ] new_red
-    - [ ] new_green
-    - [ ] new_blue
-    - [ ] new_yellow
-    - [ ] new_cyan
-    - [ ] new_magenta
-    - [ ] new_white
-    - [ ] new_black
-  - [ ] Colors with alpha
-    - [ ] new_clear
-- [ ] u8 wrapper struct instead of using functions
-  - [ ] clamped_u8
-    - [ ] add_overflow_max_clamp
-    - [ ] mul_overflow_max_clamp
-    - [ ] sub_overflow_min_clamp
+- [x] make conversion between related types more consistent
+  - [x] larger vectors should have an "implicit" function ( impl *from* ) to convert from smaller vector
+    - [x] Vector2 -> Vector3
+    - [x] Vector2 -> Vector4
+    - [x] Vector3 -> Vector4
+  - [x] smaller vectors should have an *explicit* function ( **not** impl *from* ) to convert from larger vector
+    - [x] Vector4 -> Vector3
+    - [x] Vector4 -> Vector2
+    - [x] Vector3 -> Vector2
+  - [x] RGB8    <-> RGB  should have an "implicit" function ( impl *from* )
+  - [x] RGBA8   <-> RGBA should have an "implicit" function ( impl *from* )
+  - [x] RGB     <-> HSV  should have an "implicit" function ( impl *from* )
+  - [x] HSV      -> RGBA should have an "implicit" function ( impl *from* )
+  - [x] RGBA     -> RGB  should have an *explicit* function ( **not** impl *from* )
+  - [x] RGBA8    -> RGBA should have an *explicit* function ( **not** impl *from* )
+  - [x] RGBA     -> HSV  should have an *explicit* function ( **not** impl *from* )
+  - [x] Vector4  -> RGBA should have an *explicit* function ( **not** impl *from* )
+- [x] Consts should be static "constructors" for each type
+  - [x] Matrix4x4
+    - [x] new_identity
+    - [x] new_zero
+  - [x] Vector2
+    - [x] new_one
+    - [x] new_zero
+    - [x] new_left
+    - [x] new_right
+    - [x] new_up
+    - [x] new_down
+  - [x] Vector3
+    - [x] new_one
+    - [x] new_zero
+    - [x] new_left
+    - [x] new_right
+    - [x] new_up
+    - [x] new_down
+    - [x] new_forward
+    - [x] new_back
+  - [x] Vector4
+    - [x] new_one
+    - [x] new_zero
+  - [x] Colors ( for RGBA/RGBA8, alpha = 1.0/255 )
+    - [x] new_red
+    - [x] new_green
+    - [x] new_blue
+    - [x] new_yellow
+    - [x] new_cyan
+    - [x] new_magenta
+    - [x] new_white
+    - [x] new_gray
+    - [x] new_black
+  - [x] Colors with alpha
+    - [x] new_clear
