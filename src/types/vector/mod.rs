@@ -11,7 +11,7 @@ pub use vector4::{
     Vector4,
 };
 
-fn negate_components( v:&mut [f32] ) {
+pub(crate) fn negate_components( v:&mut [f32] ) {
     let mut i = 0;
     while i < v.len() {
         v[i] = -v[i];
@@ -46,7 +46,7 @@ pub(crate) fn scale_components( v:&[f32], scalar:f32, result:&mut [f32] ) {
     }
 }
 
-fn dot_components( v1:&[f32], v2:&[f32] ) -> f32 {
+pub(crate) fn dot_components( v1:&[f32], v2:&[f32] ) -> f32 {
     let mut result:f32 = 0.0;
     let mut i = 0;
     while i < v1.len() {
@@ -56,11 +56,11 @@ fn dot_components( v1:&[f32], v2:&[f32] ) -> f32 {
     return result;
 }
 
-fn angle_components( v1:&[f32], v2:&[f32] ) -> f32 {
+pub(crate) fn angle_components( v1:&[f32], v2:&[f32] ) -> f32 {
     dot_components(v1, v2).acos().abs()
 }
 
-fn sqr_magnitude_components( components:&[f32] ) -> f32 {
+pub(crate) fn sqr_magnitude_components( components:&[f32] ) -> f32 {
     let mut result = components[0] * components[0];
     for component in components.iter().skip(1) {
         result = result + ( component * component );
@@ -68,11 +68,11 @@ fn sqr_magnitude_components( components:&[f32] ) -> f32 {
     result
 }
 
-fn magnitude_components( components:&[f32] ) -> f32 {
+pub(crate) fn magnitude_components( components:&[f32] ) -> f32 {
     sqr_magnitude_components(components).sqrt()
 }
 
-fn clamp_magnitude_components( components:&mut[f32], max:f32 ) {
+pub(crate) fn clamp_magnitude_components( components:&mut[f32], max:f32 ) {
     let mag = magnitude_components(components);
     if mag > max {
         let mut i:usize = 0;
@@ -101,7 +101,7 @@ pub(crate) fn componentwise_div_components( v1:&[f32], v2:&[f32], result:&mut [f
     }
 }
 
-fn reflect_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
+pub(crate) fn reflect_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
     // reflection = 2 * ( dot( v1, v2 ) ) * v2 - v1
 
     let dot = dot_components(v1, v2); // dot( v1, v2 )

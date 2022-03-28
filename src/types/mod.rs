@@ -5,6 +5,9 @@ pub mod matrix;
 /// `RGB`, `RGBA`, `RGB8`, `RGBA8`, `HSV`
 pub mod color;
 
+mod quaternion;
+pub use quaternion::Quaternion;
+
 /// `Degrees` or `Radians`
 /// 
 /// Used as an input for various rotation functions
