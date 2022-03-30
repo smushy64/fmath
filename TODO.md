@@ -10,6 +10,7 @@
   - [ ] simplex_noise_*n*d( x, y, optional z ) 2-3 dimensions
 - [ ] new types
   - [ ] quaternion
+  - [ ] angle axis
 
 # TO DO - 0.2.2 - public interface heavily affected
 - [x] include links to TODO.md and CHANGELOG.md in README.md
