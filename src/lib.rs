@@ -21,3 +21,5 @@ pub mod functions;
 
 /// π
 pub use core::f32::consts::PI;
+/// π / 2.0
+pub use core::f32::consts::FRAC_PI_2;
