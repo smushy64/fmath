@@ -11,6 +11,9 @@
 - [ ] new types
   - [ ] quaternion
   - [ ] angle axis
+- [ ] Re-write colors to use u32 to represent all RGB/RGBA values, offer float representation as a simple abstraction
+  - [ ] little endian so AA BB GG RR will be the order of channels in this u32
+  - [ ] bitwise operations to set/get each channel
 
 # TO DO - 0.2.2 - public interface heavily affected
 - [x] include links to TODO.md and CHANGELOG.md in README.md
