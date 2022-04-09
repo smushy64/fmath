@@ -1,20 +1,23 @@
 #![allow(unused_imports)]
-
 use core::fmt::Display;
 use core::ops::{
     Add, Sub, Mul, Div, Index, IndexMut
 };
 
-use crate::functions::angles::{radians_to_degrees, degrees_to_radians};
-
-use super::Angle;
-use super::{
-    vector::{
-        Vector3,
-        magnitude_components,
-        dot_components, cross_components, scale_components
+use crate::{
+    FRAC_PI_2,
+    types::{
+        Angle,
+        vector::{
+            Vector3,
+            magnitude_components,
+            dot_components, cross_components, scale_components
+        },
     },
-    super::FRAC_PI_2
+    functions::angles::{
+        radians_to_degrees,
+        degrees_to_radians
+    }
 };
 
 #[derive(Clone, Copy, PartialEq, Debug)]
