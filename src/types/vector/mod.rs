@@ -12,46 +12,40 @@ pub use vector4::{
 };
 
 pub(crate) fn negate_components( v:&mut [f32] ) {
-    let mut i = 0;
-    while i < v.len() {
-        v[i] = -v[i];
-        i += 1;
+    for v in v.iter_mut() {
+        *v = -(*v);
     }
 }
 
 /// Component-wise addition for two `arrays` with equal lenghts.
 pub(crate) fn add_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
-    let mut i:usize = 0;
-    while i < result.len() {
-        result[i] = v1[i] + v2[i];
-        i += 1;
+    let iter = v1.iter().zip(v2.iter()).zip(result.iter_mut());
+    for ( (a, b), res) in iter {
+        *res = a + b;
     }
 }
 
 /// Component-wise subtraction for two `arrays` with equal lenghts.
 pub(crate) fn sub_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
-    let mut i:usize = 0;
-    while i < result.len() {
-        result[i] = v1[i] - v2[i];
-        i += 1;
+    let iter = v1.iter().zip(v2.iter()).zip(result.iter_mut());
+    for ( (a, b), res) in iter {
+        *res = a - b;
     }
 }
 
 /// Component-wise scale `array` by `scalar`
 pub(crate) fn scale_components( v:&[f32], scalar:f32, result:&mut [f32] ) {
-    let mut i:usize = 0;
-    while i < result.len() {
-        result[i] = v[i] * scalar;
-        i += 1;
+    let iter = v.iter().zip(result.iter_mut());
+    for ( a, res ) in iter {
+        *res = a * scalar;
     }
 }
 
 pub(crate) fn dot_components( v1:&[f32], v2:&[f32] ) -> f32 {
-    let mut result:f32 = 0.0;
-    let mut i = 0;
-    while i < v1.len() {
-        result = result + ( v1[i] * v2[i] );
-        i += 1;
+    let mut result = 0.0;
+    let iter = v1.iter().zip(v2.iter());
+    for ( a, b ) in iter {
+        result += a * b;
     }
     return result;
 }
@@ -69,11 +63,11 @@ pub(crate) fn angle_components( v1:&[f32], v2:&[f32] ) -> f32 {
 }
 
 pub(crate) fn sqr_magnitude_components( components:&[f32] ) -> f32 {
-    let mut result = components[0] * components[0];
-    for component in components.iter().skip(1) {
-        result = result + ( component * component );
+    let mut result = 0.0;
+    for component in components.iter() {
+        result += component * component;
     }
-    result
+    return result;
 }
 
 pub(crate) fn magnitude_components( components:&[f32] ) -> f32 {
@@ -83,29 +77,25 @@ pub(crate) fn magnitude_components( components:&[f32] ) -> f32 {
 pub(crate) fn clamp_magnitude_components( components:&mut[f32], max:f32 ) {
     let mag = magnitude_components(components);
     if mag > max {
-        let mut i:usize = 0;
-        while i < components.len() {
-            components[i] = (components[i] / mag) * max;
-            i += 1;
+        for component in components.iter_mut() {
+            *component = ( *component / mag ) * max;
         }
     }
 }
 
 /// Component-wise scale `array` by `array`
 pub(crate) fn componentwise_scale_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
-    let mut i = 0;
-    while i < result.len() {
-        result[i] = v1[i] * v2[i];
-        i += 1;
+    let iter = v1.iter().zip(v2.iter()).zip(result.iter_mut());
+    for ( ( a, b ), res ) in iter {
+        *res = a * b;
     }
 }
 
 /// Component-wise divide `array` by `array`
 pub(crate) fn componentwise_div_components( v1:&[f32], v2:&[f32], result:&mut [f32] ) {
-    let mut i = 0;
-    while i < result.len() {
-        result[i] = v1[i] / v2[i];
-        i += 1;
+    let iter = v1.iter().zip(v2.iter()).zip(result.iter_mut());
+    for ( ( a, b ), res ) in iter {
+        *res = a / b;
     }
 }
 

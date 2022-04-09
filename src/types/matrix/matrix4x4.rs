@@ -3,7 +3,6 @@ use core::ops::{
     Add, Sub, Mul, Div, Index, IndexMut
 };
 use crate::{
-    functions::angles::degrees_to_radians,
     types::vector::{
         add_components,
         sub_components,
@@ -11,12 +10,14 @@ use crate::{
         Vector4,
         Vector3,
     },
-    types::Angle
 };
 
 /// Data is in *column-major* order
 /// 
-/// Indexable with **[ ]**
+/// Indexable with **[ ]** (*as 1D array*)
+/// 
+/// Use associated fn's `nm_index` and `nm_mut_index` to
+/// index with 2D coordinates (*column major*)
 /// 
 /// The following table shows what cell each index corresponds to
 /// 
@@ -65,17 +66,13 @@ impl Matrix4x4 {
     /// 
     /// `t`: translation
     /// 
-    /// `r`: rotation
+    /// `r`: rotation in **Radians**
     /// 
     /// `s`: scale
-    /// 
-    /// `angle_kind`: *Degrees* or *Radians*
-    /// 
-    /// *Radians* should be faster as there's no need to do any conversion.
-    pub fn new_trs( t:&[f32;3], r:&[f32;3], s:&[f32;3], angle_kind:Angle ) -> Self {
+    pub fn new_trs( t:&[f32;3], r:&[f32;3], s:&[f32;3] ) -> Self {
         return 
             Self::new_translate(t) *
-            Self::new_rotate( r, angle_kind ) *
+            Self::new_rotate(r) *
             Self::new_scale(s);
     }
 
@@ -91,29 +88,19 @@ impl Matrix4x4 {
         return result;
     }
 
-    /// Creates a new `Matrix4x4` for **rotating** coordinates
+    /// Creates a new `Matrix4x4` for **rotating** coordinates from *euler angles*
     /// 
-    /// `kind`: *Degrees* or *Radians*
-    /// 
-    /// *Radians* should be faster as there's no need to do any conversion.
-    pub fn new_rotate( r:&[f32;3], kind:Angle ) -> Self {
-        match kind {
-            Angle::Degrees => {
-                return
-                    Self::new_x_rotate(degrees_to_radians(r[0])) * 
-                    Self::new_y_rotate(degrees_to_radians(r[1])) *
-                    Self::new_z_rotate(degrees_to_radians(r[2]));
-            },
-            Angle::Radians => {
-                return
-                    Self::new_x_rotate(r[0]) * 
-                    Self::new_y_rotate(r[1]) *
-                    Self::new_z_rotate(r[2]);
-            }
-        }
+    /// Angles are in **Radians**
+    pub fn new_rotate( r:&[f32;3] ) -> Self {
+        Self::new_x_rotate(r[0]) *
+        Self::new_y_rotate(r[1]) *
+        Self::new_z_rotate(r[2])
     }
 
-    fn new_x_rotate( theta_rad:f32 ) -> Self {
+    /// Creates a new `Matrix4x4` for **rotating** coordinates around *x axis*
+    /// 
+    /// Angle is in **Radians**
+    pub fn new_x_rotate( theta_rad:f32 ) -> Self {
         let mut result = Self::new_identity();
 
         result.data[5]  =  theta_rad.cos();
@@ -124,7 +111,10 @@ impl Matrix4x4 {
         return result;
     }
 
-    fn new_y_rotate( theta_rad:f32 ) -> Self {
+    /// Creates a new `Matrix4x4` for **rotating** coordinates around *y axis*
+    /// 
+    /// Angle is in **Radians**
+    pub fn new_y_rotate( theta_rad:f32 ) -> Self {
         let mut result = Self::new_identity();
 
         result.data[0]  =  theta_rad.cos();
@@ -135,7 +125,10 @@ impl Matrix4x4 {
         return result;
     }
 
-    fn new_z_rotate( theta_rad:f32 ) -> Self {
+    /// Creates a new `Matrix4x4` for **rotating** coordinates around *z axis*
+    /// 
+    /// Angle is in **Radians**
+    pub fn new_z_rotate( theta_rad:f32 ) -> Self {
         let mut result = Self::new_identity();
 
         result.data[0] =  theta_rad.cos();
@@ -166,6 +159,9 @@ impl Matrix4x4 {
     }
 
     /// Creates `Matrix4x4` from `array` in *row-major* order
+    /// 
+    /// *Column-major* order is preferred as it's how the underlying
+    /// data is actually ordered.
     pub fn from_array_row_major(array:[f32;16]) -> Self {
         Self{
             data:[
@@ -189,7 +185,7 @@ impl Matrix4x4 {
 
     /// Returns: **new** `array` of data in *row-major* order
     /// 
-    /// *Column-major* ordering is preferred as that is how OpenGL orders matrix data.
+    /// *Column-major* ordering is preferred as that is how the underlying data is ordered.
     pub fn as_array_row_major(&self) -> [f32;16] {
         [
             self.data[0], self.data[4],  self.data[8], self.data[12],
@@ -203,7 +199,7 @@ impl Matrix4x4 {
     /// 
     /// Returns: `reference` to value at given index
     pub fn nm_index( &self, row:usize, column:usize ) -> &f32 {
-        assert!(row < 4 && column < 4);
+        debug_assert!(row < 4 && column < 4);
         &self[row + (column * 4)]
     }
 
@@ -211,7 +207,7 @@ impl Matrix4x4 {
     /// 
     /// Returns: `mutable reference` to value at given index
     pub fn nm_mut_index( &mut self, row:usize, column:usize ) -> &mut f32 {
-        assert!(row < 4 && column < 4);
+        debug_assert!(row < 4 && column < 4);
         &mut self[row + (column * 4)]
     }
 
@@ -234,9 +230,9 @@ impl Matrix4x4 {
     /// Returns: `Vector3`
     pub fn mul_vector3( m:&Self, v:&Vector3 ) -> Vector3 {
         Vector3::from_array([
-            ( m[0] * v[0] ) + ( m[4] * v[1] ) + ( m[8]  * v[2] ) + ( m[12] * 1.0 ),
-            ( m[1] * v[0] ) + ( m[5] * v[1] ) + ( m[9]  * v[2] ) + ( m[13] * 1.0 ),
-            ( m[2] * v[0] ) + ( m[6] * v[1] ) + ( m[10] * v[2] ) + ( m[14] * 1.0 ),
+            ( m[0] * v[0] ) + ( m[4] * v[1] ) + ( m[8]  * v[2] ) + m[12],
+            ( m[1] * v[0] ) + ( m[5] * v[1] ) + ( m[9]  * v[2] ) + m[13],
+            ( m[2] * v[0] ) + ( m[6] * v[1] ) + ( m[10] * v[2] ) + m[14],
             // ( m[3] * v[0] ) + ( m[7] * v[1] ) + ( m[11] * v[2] ) + ( m[15] * 1.0 ),
         ])
     }
