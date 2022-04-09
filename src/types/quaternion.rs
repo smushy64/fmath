@@ -11,7 +11,9 @@ use crate::{
         vector::{
             Vector3,
             magnitude_components,
-            dot_components, cross_components, scale_components
+            dot_components,
+            cross_components,
+            scale_components
         },
     },
     functions::angles::{
@@ -20,6 +22,13 @@ use crate::{
     }
 };
 
+// TODO: Implement Slerp, Inverse, From/As Angle Axis
+
+/// `Quaternion`
+/// 
+/// Compact way to represent rotations without gimbal lock.
+/// 
+/// Implements: `Clone`, `Copy`, `PartialEq`, `Debug`
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct Quaternion {
     components:[f32;4]
@@ -27,30 +36,33 @@ pub struct Quaternion {
 
 impl Quaternion {
 
+    /// Create new `Quaternion` from given `scalar` and `x` `y` `z` values
     pub fn new( scalar:f32, x:f32, y:f32, z:f32 ) -> Self {
         Self { components:[scalar,x,y,z] }
     }
 
+    /// Create new `Quaternion` from given `scalar` and `Vector3`
     pub fn from_scalar_vector( scalar:f32, v:Vector3 ) -> Self {
         Self { components:[ scalar, v[0], v[1], v[2] ] }
     }
 
-    pub fn from_euler_angles( euler:Vector3, angle_kind:Angle ) -> Self {
+    /// Create new `Quaternion` from `f32;4`
+    /// 
+    /// `0` = scalar
+    /// 
+    /// `1` `2` `3` = vector
+    pub fn from_array( components:[f32;4] ) -> Self {
+        Self { components }
+    }
 
-        let mut angles = euler.as_array().clone();
+    /// Create new `Quaternion` from given euler angles (`Vector3`)
+    /// 
+    /// Angles in **Radians**
+    pub fn from_euler_angles( euler:Vector3 ) -> Self {
 
-        match angle_kind {
-            Angle::Degrees => {
-                angles[0] = degrees_to_radians(angles[0]);
-                angles[1] = degrees_to_radians(angles[1]);
-                angles[2] = degrees_to_radians(angles[2]);
-            },
-            _ => {},
-        }
-
-        let ( x_sin, x_cos ) = ( angles[0] / 2.0 ).sin_cos();
-        let ( y_sin, y_cos ) = ( angles[1] / 2.0 ).sin_cos();
-        let ( z_sin, z_cos ) = ( angles[2] / 2.0 ).sin_cos();
+        let ( x_sin, x_cos ) = ( euler[0] / 2.0 ).sin_cos();
+        let ( y_sin, y_cos ) = ( euler[1] / 2.0 ).sin_cos();
+        let ( z_sin, z_cos ) = ( euler[2] / 2.0 ).sin_cos();
 
         Self {
             components:[
@@ -63,8 +75,14 @@ impl Quaternion {
         }
     }
 
-    pub fn as_euler_angles(&self, angle_kind:Angle) -> Vector3 {
-        let mut result = Vector3::from_array([
+    /// Get `Quaternion` rotation as *euler angles*
+    /// 
+    /// Angles in **Radians**
+    /// 
+    /// *Note: if `Quaternion` was created from euler angles,
+    /// this euler angles representation might not have the same values as the original*
+    pub fn as_euler_angles(&self) -> Vector3 {
+        Vector3::from_array([
             ( 2.0 * ( self[0] * self[1] + self[2] * self[3] ) )
                 .atan2( 1.0 - 2.0 * ( self[1] * self[1] + self[2] * self[2] ) ),
 
@@ -72,47 +90,67 @@ impl Quaternion {
 
             ( 2.0 * (self[0] * self[3] + self[1] * self[2]) )
                 .atan2( 1.0 - 2.0 * (self[2] * self[2] + self[3] * self[3]) )
-        ]);
-
-        match angle_kind {
-            Angle::Degrees => {
-                result[0] = radians_to_degrees(result[0]);
-                result[1] = radians_to_degrees(result[1]);
-                result[2] = radians_to_degrees(result[2]);
-                return result
-            },
-            Angle::Radians => return result,
-        }
+        ])
     }
 
+    /// Get `Quaternion` values as `f32` array
+    /// 
+    /// `0` = scalar
+    /// 
+    /// `1` `2` `3` = vector
     pub fn as_array(&self) -> &[f32;4] {
         &self.components
     }
 
+    /// Returns: `Quaternion` length without applying square root
+    /// 
+    /// alias: `norm`
     pub fn sqr_magnitude(&self) -> f32 {
+        self.norm()
+    }
+
+    /// Returns: `Quaternion` length without applying square root
+    /// 
+    /// alias: `sqr_magnitude`
+    pub fn norm(&self) -> f32 {
         ( self[0] * self[0] ) +
         ( self[1] * self[1] ) +
         ( self[2] * self[2] ) +
         ( self[3] * self[3] )
     }
 
+    /// Returns: `Quaternion` length
     pub fn magnitude(&self) -> f32 {
         self.sqr_magnitude().sqrt()
     }
 
-    pub fn normalize(&mut self) {
-        let norm = self.sqr_magnitude();
+    /// Returns: normalization result
+    /// 
+    /// `Ok`: if `Quaternion`'s norm is **not** zero.
+    /// 
+    /// `Err`: if `Quaternion`'s norm **is** zero.
+    pub fn normalize(&self) -> Result<Self, String> {
+        let norm = self.norm();
         if norm == 0.0 {
-            panic!("Quaternion cannot be normalized if its square magnitude is 0.0!");
+            return Err(
+                format!("Quaternion cannot be normalized if its square magnitude is 0.0!")
+            );
         }
+
+        // TODO: Implement faster inverse square root
         let n = 1.0 / norm.sqrt();
 
-        self[0] = self[0] * n;
-        self[1] = self[1] * n;
-        self[2] = self[2] * n;
-        self[3] = self[3] * n;
+        Ok( Self {
+            components:[
+                self[0] * n,
+                self[1] * n,
+                self[2] * n,
+                self[3] * n,
+            ]
+        } )
     }
 
+    /// Returns: new `Quaternion` with the same magtinude but the sign of the imaginary components flipped
     pub fn conjugate(&self) -> Self {
         Self {
             components:[
@@ -140,7 +178,7 @@ impl Quaternion {
 
 impl Display for Quaternion {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!( f, "Quaternion: scalar:{}, vector: {}, {}, {}", self[0], self[1], self[2], self[3] )
+        write!( f, "Quaternion:\n    scalar:{}, vector: {}, {}, {}", self[0], self[1], self[2], self[3] )
     }
 }
 

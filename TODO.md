@@ -1,5 +1,4 @@
 # TO DO - 0.3.0 - add new functions and types
-- [ ] more reorganizations
 - [ ] new functions
   - [x] lerp( a, b, t ) f32
     - ( 1 - t ) * a + b * t

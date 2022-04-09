@@ -10,7 +10,7 @@ use super::{
 
 use crate::functions::clamp;
 
-/// 2-component Vector
+/// `Vector2`
 /// 
 /// Indexable with **[ ]**
 /// 
