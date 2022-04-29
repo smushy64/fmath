@@ -47,7 +47,6 @@ use fmath::{
     }
 };
 
-// Types -- all types implement fmt::Display
 // Vector
 let v1 = Vector2::new( 1.2, 3.4 ); // Vector2: 1.2, 3.4
 let v2 = Vector2::new( 4.5, 6.7 ); // Vector2: 4.5, 6.7
@@ -65,15 +64,14 @@ let mut v4 = Vector3::new(1.0, 1.0, 1.0);
 v4 = Matrix4x4::mul_vector3(&m3, &v4);
 
 // Color
-let rgba = RGBA::new_yellow();
-let hsv = HSV::from_rgba(rgba);
+let rgb = RGB::new_yellow();
+let hsv = HSV::from_rgb(rgb);
 println!("{}", hsv); // 60, 1.0, 1.0
-println!("{}", RGBA::from(hsv)); // 1.0, 1.0, 0.0, 1.0
+println!("{}", RGB::from(hsv)); // 255, 255, 0.0, 255
 
-let rgb8 = RGB8::from_hex("994cd4").unwrap();
+let rgb_2 = RGB::from_hex("994cd4").unwrap();
 
-let rgb:RGB = rgb8.into();
-println!("{}", rgb); // 0.6, 0.3, 0.83
+println!("{}", rgb); // 153, 77, 212
 
 
 ```

@@ -1,17 +1,10 @@
 use core::fmt::Display;
 use crate::functions::{
     angles::degrees_overflow,
-    clamp,
     max, min,
 };
 
-use super::{
-    RGB,
-    RGB8,
-    RGBA,
-    RGBA8,
-    color_byte_to_color_float,
-};
+use super::RGB;
 
 /// Color representation using `Hue`, `Saturation` and `Value`
 /// 
@@ -28,24 +21,10 @@ pub struct HSV {
 
 impl HSV {
 
-    /// Create `HSV` from `RGBA`
-    /// 
-    /// `a` component is **lost** in conversion!
-    pub fn from_rgba(c:RGBA) -> Self {
-        let rgba = c.as_array();
-        Self::from_rgb_array(&[rgba[0], rgba[1], rgba[2]])
-    }
-
-    /// Create `HSV` from `RGBA8`
-    /// 
-    /// `a` component is **lost** in conversion!
-    pub fn from_rgba8(c:RGBA8) -> Self {
-        let rgba = c.as_array();
-        Self::from_rgb_array(&[
-            color_byte_to_color_float(rgba[0]),
-            color_byte_to_color_float(rgba[1]),
-            color_byte_to_color_float(rgba[2]),
-        ])
+    /// Create `HSV` from `RGB`
+    pub fn from_rgb( color:RGB ) -> Self {
+        let rgb = color.as_float_rgb_array();
+        Self::from_rgb_array(&rgb)
     }
 
     /// Create new `HSV` from `hue`, `saturation` and `value`
@@ -58,8 +37,8 @@ impl HSV {
     pub fn new( hue:f32, saturation:f32, value:f32 ) -> Self {
         Self {
             hue:degrees_overflow(hue),
-            saturation:clamp(saturation, 0.0, 1.0),
-            value:clamp(value, 0.0, 1.0)
+            saturation:saturation.clamp( 0.0, 1.0),
+            value:value.clamp(0.0, 1.0)
         }
     }
 
@@ -128,6 +107,11 @@ impl HSV {
         [r + m, g + m, b + m]
     }
 
+    /// Returns: new `RGB` from `HSV`
+    pub fn as_rgb(&self) -> RGB {
+        RGB::from_float_array_rgb( self.as_rgb_array() )
+    }
+
     /// Returns: `reference` to `hue` component
     pub fn hue(&self) -> &f32 {
         &self.hue
@@ -154,14 +138,14 @@ impl HSV {
     /// 
     /// `saturation` is clamped between **0.0** and **1.0**
     pub fn set_saturation(&mut self, saturation:f32) {
-        self.saturation = clamp(saturation, 0.0, 1.0);
+        self.saturation = saturation.clamp(0.0, 1.0);
     }
 
     /// Set `value` component
     /// 
     /// `value` is clamped between **0.0** and **1.0**
     pub fn set_value(&mut self, value:f32) {
-        self.value = clamp(value, 0.0, 1.0);
+        self.value = value.clamp(0.0, 1.0);
     }
 
 }
@@ -173,21 +157,5 @@ impl Display for HSV {
             "HSV: Hue: {}°, Saturation: {}%, Value: {}%",
             self.hue(), self.saturation() * 100.0, self.value() * 100.0
         )
-    }
-}
-
-impl From<RGB> for HSV {
-    fn from(c:RGB) -> Self {
-        Self::from_rgb_array(c.as_array())
-    }
-}
-
-impl From<RGB8> for HSV {
-    fn from(c:RGB8) -> Self {
-        Self::from_rgb_array(&[
-            color_byte_to_color_float(c[0]),
-            color_byte_to_color_float(c[1]),
-            color_byte_to_color_float(c[2]),
-        ])
     }
 }

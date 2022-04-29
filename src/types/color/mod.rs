@@ -1,29 +1,10 @@
 #[allow(dead_code)]
 
-mod rgb8;
-pub use rgb8::{
-    RGB8,
-};
-
-mod rgba8;
-pub use rgba8::{
-    RGBA8,
-};
-
 mod rgb;
-pub use rgb::{
-    RGB,
-};
-
-mod rgba;
-pub use rgba::{
-    RGBA
-};
+pub use rgb::RGB;
 
 mod hsv;
-pub use hsv::{
-    HSV
-};
+pub use hsv::HSV;
 
 pub(crate) fn color_byte_to_color_float( byte:u8 ) -> f32 {
     ( byte as f32 ) / 255.0

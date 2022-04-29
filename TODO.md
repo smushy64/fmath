@@ -1,19 +1,39 @@
-# TO DO - 0.3.0 - add new functions and types
+# TO DO - 0.2.4 - add new functions and types
 - [ ] new functions
+  - [ ] perlin_noise_*n*d( x, y, optional z ) 2-3 dimensions
+  - [ ] simplex_noise_*n*d( x, y, optional z ) 2-3 dimensions
+- [ ] angle axis
+- [ ] Re-write example for README
+
+# TO DO - 0.2.3 - add quaternions and rewrite RGB
+- [x] new functions
   - [x] lerp( a, b, t ) f32
     - ( 1 - t ) * a + b * t
   - [x] inverse lerp( a, b, v ) f32
     - ( v - a ) / ( b - a )
   - [x] remap( min1, max1, min2, max2, v ) f32
     - lerp( min2, max2, inverse_lerp( min1, max1, v ) )
-  - [ ] perlin_noise_*n*d( x, y, optional z ) 2-3 dimensions
-  - [ ] simplex_noise_*n*d( x, y, optional z ) 2-3 dimensions
-- [ ] new types
-  - [ ] quaternion
-  - [ ] angle axis
-- [ ] Re-write colors to use u32 to represent all RGB/RGBA values, offer float representation as a simple abstraction
-  - [ ] little endian so AA BB GG RR will be the order of channels in this u32
-  - [ ] bitwise operations to set/get each channel
+- [x] quaternion
+- [x] Rewrite colors to use u32 to represent all RGB/RGBA values, offer float representation from/as fn's
+  - [x] little endian so AA BB GG RR will be the order of channels in this u32
+  - [x] bitwise operations to set/get each channel
+  - [x] as tuple for color types
+  - [x] write documentation for RGB
+  - [x] update HSV to work with new RGB struct
+  - [x] new_red
+  - [x] new_green
+  - [x] new_blue
+  - [x] new_yellow
+  - [x] new_cyan
+  - [x] new_magenta
+  - [x] new_white
+  - [x] new_gray
+  - [x] new_black
+  - [x] new_clear
+- [x] Remove functions already in rust ( oops )
+  - [x] overflow add/sub/mul
+  - [x] clamp
+- [x] Re-write example for README
 
 # TO DO - 0.2.2 - public interface heavily affected
 - [x] include links to TODO.md and CHANGELOG.md in README.md

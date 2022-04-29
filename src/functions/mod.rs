@@ -9,7 +9,7 @@ use super::PI;
 /// 
 /// Returns: `f32` with values between `a` and `b`
 pub fn lerp( a:f32, b:f32, t:f32 ) -> f32 {
-    lerp_unclamped(a, b, clamp(t, 0.0, 1.0))
+    lerp_unclamped(a, b, t.clamp(0.0, 1.0))
 }
 
 /// Linearly interpolate from `a` to `b`
@@ -65,67 +65,4 @@ where N:PartialOrd + Copy
     }
 
     return smallest;
-}
-
-/// Clamps the given `value` between given `minimum` and `maximum`.
-/// 
-/// * Returns: `mininimum` if `value` is *less* than `minimum`.
-/// 
-/// * Returns: `maximum` if `value` is *greater* than `maximum`.
-/// 
-/// * Returns: `value` if `value` is between the `minimum` and `maximum` range.
-/// 
-pub fn clamp<N>( value:N, min:N, max:N ) -> N
-where N:PartialOrd
-{
-    assert!( min <= max );
-    if value < min {
-        return min;
-    } else if value > max {
-        return max;
-    }
-
-    return value;
-}
-
-/// Adds `lhs` and `rhs` with *overflow* check
-/// 
-/// * Returns: **255** if `result` overflows
-/// 
-/// * Returns: `result` if no overflow occurs
-pub fn u8_add_overflow_max_clamp( lhs:u8, rhs:u8 ) -> u8 {
-    let ( result, is_overflowing ) = u8::overflowing_add(lhs, rhs);
-    if is_overflowing {
-        return u8::MAX;
-    } else {
-        return result;
-    }
-}
-
-/// Subtracts `rhs` from `lhs` with *overflow* check
-/// 
-/// * Returns: **0** if `result` overflows
-/// 
-/// * Returns: `result` if no overflow occurs
-pub fn u8_sub_overflow_min_clamp( lhs:u8, rhs:u8 ) -> u8 {
-    let ( result, is_overflowing ) = u8::overflowing_sub(lhs, rhs);
-    if is_overflowing {
-        return 0_u8;
-    } else {
-        return result;
-    }
-}
-
-/// Multiplies `lhs` and `rhs` with *overflow* check
-/// 
-/// * Returns: **255** if `result` overflows
-/// 
-/// * Returns: `result` if no overflow occurs
-pub fn u8_mul_overflow_max_clamp( lhs:u8, rhs:u8 ) -> u8 {
-    let ( result, is_overflowing ) = u8::overflowing_mul(lhs, rhs);
-    if is_overflowing {
-        return u8::MAX;
-    } else {
-        return result;
-    }
 }

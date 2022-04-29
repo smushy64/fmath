@@ -31,6 +31,45 @@ pub fn decode_hex_str( hex:&str ) -> Result<Vec<u8>, String> {
 
 }
 
+/// Decodes input `str` into `u8;3`
+/// 
+/// * Returns: `u8;3` if input `str` is formatted properly
+/// 
+/// * Returns: `Error` as `String` if input `str` is not formatted properly
+pub fn decode_hex_rgb( hex:&str ) -> Result<[u8;3], String> {
+
+    let mut hexadecimal = String::from(hex);
+
+    if hexadecimal.contains('#') {
+        hexadecimal = String::from(hexadecimal.trim_start_matches('#'));
+    }
+
+    if hexadecimal.len() != 6 {
+        return Err(
+            format!("DECODE HEXADECIMAL ERROR: Input hex string formatted incorrectly!")
+        );
+    }
+
+    let mut result:[u8;3] = [0, 0, 0];
+    let mut i = 0;
+    let mut j = 0;
+    while i < hexadecimal.len() {
+
+        let byte = match u8::from_str_radix( &hexadecimal[ i..i + 2 ], 16 ) {
+            Ok(result) => result,
+            Err(error) => return Err( format!("{}", error) ),
+        };
+
+        result[j] = byte;
+
+        i += 2;
+        j += 1;
+    }
+
+    return Ok( result );
+
+}
+
 /// Encodes input bytes `array` into *hexadecimal* `String`
 pub fn encode_hex( bytes:&[u8] ) -> String {
     let mut result = String::with_capacity( bytes.len() * 2 );

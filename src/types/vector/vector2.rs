@@ -8,8 +8,6 @@ use super::{
     Vector4
 };
 
-use crate::functions::clamp;
-
 /// `Vector2`
 /// 
 /// Indexable with **[ ]**
@@ -169,7 +167,7 @@ impl Vector2 {
     /// 
     /// Returns: new `Vector2` with values between `a` and `b`
     pub fn lerp( a:&Self, b:&Self, t:f32 ) -> Self {
-        Self::lerp_unclamped(a, b, clamp(t, 0.0, 1.0))
+        Self::lerp_unclamped(a, b, t.clamp(0.0, 1.0))
     }
 
     /// Linearly interpolate from `a` to `b`
