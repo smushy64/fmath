@@ -1,3 +1,14 @@
+# 0.2.3
+## Major public API changes
+- Quaternions implemented
+  - Note: Not completely confident in its implementation so use with caution!
+- New functions added
+  - lerp
+  - inverse lerp
+  - remap
+- Consolidated RGB structs into one struct - check TODO.md for full details
+- Removed various redundant functions
+
 # 0.2.2
 ## Major public API changes
 - Changed the way modules are organized
