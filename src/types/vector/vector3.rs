@@ -240,7 +240,7 @@ impl Vector3 {
 impl Display for Vector3 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!( f, 
-            "Vector 3: {}, {}, {}", self.x(), self.y(), self.z()
+            "( {:7.3}, {:7.3}, {:7.3} )", self.x(), self.y(), self.z()
         )
     }
 }

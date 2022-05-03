@@ -12,7 +12,7 @@ use crate::{
     },
 };
 
-/// Data is in *column-major* order
+/// 4 by 4 Matrix in *column-major* order
 /// 
 /// Indexable with **[ ]** (*as 1D array*)
 /// 
@@ -74,6 +74,13 @@ impl Matrix4x4 {
             Self::new_translate(t) *
             Self::new_rotate(r) *
             Self::new_scale(s);
+    }
+
+    /// Creates a new `Matrix4x4` for **transforming** coordinates with default values
+    pub fn new_default_trs() -> Self {
+        let zero = [0.0, 0.0, 0.0];
+        let one = [1.0, 1.0, 1.0];
+        Self::new_trs(&zero, &zero, &one)
     }
 
     /// Creates a new `Matrix4x4` for **translating** coordinates
@@ -214,12 +221,12 @@ impl Matrix4x4 {
     /// Multiply `Vector4` by `Matrix4x4`
     /// 
     /// Returns: `Vector4`
-    pub fn mul_vector4( m:&Self, v:&Vector4 ) -> Vector4 {
+    pub fn mul_vector4( &self, v:&Vector4 ) -> Vector4 {
         Vector4::from_array([
-            ( m[0] * v[0] ) + ( m[4] * v[1] ) + ( m[8]  * v[2] ) + ( m[12] * v[3] ),
-            ( m[1] * v[0] ) + ( m[5] * v[1] ) + ( m[9]  * v[2] ) + ( m[13] * v[3] ),
-            ( m[2] * v[0] ) + ( m[6] * v[1] ) + ( m[10] * v[2] ) + ( m[14] * v[3] ),
-            ( m[3] * v[0] ) + ( m[7] * v[1] ) + ( m[11] * v[2] ) + ( m[15] * v[3] ),
+            ( self[0] * v[0] ) + ( self[4] * v[1] ) + ( self[8]  * v[2] ) + ( self[12] * v[3] ),
+            ( self[1] * v[0] ) + ( self[5] * v[1] ) + ( self[9]  * v[2] ) + ( self[13] * v[3] ),
+            ( self[2] * v[0] ) + ( self[6] * v[1] ) + ( self[10] * v[2] ) + ( self[14] * v[3] ),
+            ( self[3] * v[0] ) + ( self[7] * v[1] ) + ( self[11] * v[2] ) + ( self[15] * v[3] ),
         ])
     }
 
@@ -228,11 +235,11 @@ impl Matrix4x4 {
     /// Adds **1.0** to end of `Vector3` when calculating result ( *homogenous coordinate* )
     /// 
     /// Returns: `Vector3`
-    pub fn mul_vector3( m:&Self, v:&Vector3 ) -> Vector3 {
+    pub fn mul_vector3( &self, v:&Vector3 ) -> Vector3 {
         Vector3::from_array([
-            ( m[0] * v[0] ) + ( m[4] * v[1] ) + ( m[8]  * v[2] ) + m[12],
-            ( m[1] * v[0] ) + ( m[5] * v[1] ) + ( m[9]  * v[2] ) + m[13],
-            ( m[2] * v[0] ) + ( m[6] * v[1] ) + ( m[10] * v[2] ) + m[14],
+            ( self[0] * v[0] ) + ( self[4] * v[1] ) + ( self[8]  * v[2] ) + self[12],
+            ( self[1] * v[0] ) + ( self[5] * v[1] ) + ( self[9]  * v[2] ) + self[13],
+            ( self[2] * v[0] ) + ( self[6] * v[1] ) + ( self[10] * v[2] ) + self[14],
             // ( m[3] * v[0] ) + ( m[7] * v[1] ) + ( m[11] * v[2] ) + ( m[15] * 1.0 ),
         ])
     }

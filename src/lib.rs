@@ -3,20 +3,26 @@
 //! Provides various math-related types and functions that are relevant to my projects
 
 #![allow(dead_code)]
-/// Types such as:
+/// Vectors, Matrix4x4, colors
 /// 
-/// - Vectors: `Vector2`, `Vector3`, `Vector4`
-/// - Colors: `RGB`, `RGBA`, `RGB8`, `RGBA8`, `HSV`
+/// - `Vector2` `Vector3` `Vector4`
 /// - `Matrix4x4`
-/// - `Angle` enum
+/// - Colors
+///     - `RGB`
+///     - `HSV`
+/// - `Quaternion` ***work in progress***
 pub mod types;
 
-/// Functions such as:
+/// Various helper functions
 /// 
-/// - `min(&[N])` and `max(&[N])` where `N` is a type that impl's `PartialOrd` + `Copy`
-/// - `clamp(value:N, min:N, max:N)` where `N` is a type that impl's `PartialOrd`
-/// 
-/// etc...
+/// - `lerp` `inverse lerp` `remap`
+/// - `max` and `min` for number arrays
+/// - hexadecimal
+///     - `decode` and `encode`
+/// - angles
+///     - degrees -> radians
+///     - radians -> degrees
+///     - degree overflow ( wrap value between 0.0-360.0 )
 pub mod functions;
 
 /// π

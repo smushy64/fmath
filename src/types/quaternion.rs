@@ -7,7 +7,6 @@ use core::ops::{
 use crate::{
     FRAC_PI_2,
     types::{
-        Angle,
         vector::{
             Vector3,
             magnitude_components,
@@ -24,7 +23,7 @@ use crate::{
 
 // TODO: Implement Slerp, Inverse, From/As Angle Axis
 
-/// `Quaternion`
+/// 4-component structure
 /// 
 /// Compact way to represent rotations without gimbal lock.
 /// 

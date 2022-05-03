@@ -8,7 +8,7 @@ use super::{
     Vector4
 };
 
-/// `Vector2`
+/// 2-component Vector
 /// 
 /// Indexable with **[ ]**
 /// 
@@ -218,7 +218,7 @@ impl Vector2 {
 impl Display for Vector2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!( f, 
-            "Vector 2: {}, {}", self.x(), self.y()
+            "( {:7.3}, {:7.3} )", self.x(), self.y()
         )
     }
 }

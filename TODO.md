@@ -1,9 +1,20 @@
-# TO DO - 0.2.4 - add new functions and types
+# TO DO - 0.2.5 - add new functions and types
 - [ ] new functions
   - [ ] perlin_noise_*n*d( x, y, optional z ) 2-3 dimensions
   - [ ] simplex_noise_*n*d( x, y, optional z ) 2-3 dimensions
 - [ ] angle axis
 - [ ] Re-write example for README
+
+# TO DO - 0.2.4 - minor fixes
+- [x] Matrix4x4
+  - [x] mul vector3 and vector4 use &Self instead of &self
+  - [x] add default trs constructor
+- [x] remove Angle enum
+- [x] change types accessing - now modules are private with types exposed public
+- [x] test function in 'tests' for every type
+- [x] rewrite examples
+- [x] rewrite vector display so that it just shows the relevant data
+- [x] RGBA float formatting
 
 # TO DO - 0.2.3 - add quaternions and rewrite RGB
 - [x] new functions

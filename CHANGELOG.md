@@ -1,3 +1,17 @@
+# 0.2.4
+## Major public API changes
+## Minor fixes
+- Matrix4x4
+  - mul vector3 and vector4 used &Self instead of &self, now correctly uses &self
+  - added default trs constructor
+- Removed Angle enum
+- Changed how modules are organized again
+  - fmath::types::* exposes all types except color types which are still accessed with colors::*
+  - rewrote examples to reflect changes
+- Vector fmt::Display rewritten to only display data, with formatting {:7.3}
+- RGB fmt::Display rewritten with formatting {:0>3} for 8-bit, {:5.3} for float
+- Minor Documentation rewrite
+
 # 0.2.3
 ## Major public API changes
 - Quaternions implemented

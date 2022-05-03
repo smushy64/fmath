@@ -12,9 +12,9 @@ use super::{
     color_byte_to_color_float
 };
 
-/// `RGB`
-/// 
 /// 32-bit RGB color (*little endian*)
+/// 
+/// A B G R
 /// 
 /// Implements: `Clone`, `Copy`, `PartialEq`, `Debug`
 #[derive(Clone, Copy, PartialEq, Debug)]
@@ -26,10 +26,10 @@ impl RGB {
 
     /// Create new `RGB`
     pub fn new_rgb( r:u8, g:u8, b:u8 ) -> Self {
-        Self::new_rgba(r, g, b, 0)
+        Self::new_rgba(r, g, b, 255)
     }
 
-    /// Create new `RGBA`
+    /// Create new `RGB` with alpha
     pub fn new_rgba( r:u8, g:u8, b:u8, a:u8 ) -> Self {
         Self {
             c:
@@ -252,8 +252,16 @@ impl RGB {
     /// Returns: `String` representation of data in 0.0-1.0 range
     pub fn format_as_float_rgb(&self) -> String {
         format!(
-            "RGB: ( {}, {}, {} )",
+            "RGB: ( {:5.3}, {:5.3}, {:5.3} )",
             self.r_f32(), self.g_f32(), self.b_f32()
+        )
+    }
+
+    /// Returns: `String` representation of data in 0.0-1.0 range
+    pub fn format_as_float_rgba(&self) -> String {
+        format!(
+            "RGBA: ( {:5.3}, {:5.3}, {:5.3}, {:5.3} )",
+            self.r_f32(), self.g_f32(), self.b_f32(), self.a_f32()
         )
     }
 
@@ -388,7 +396,7 @@ impl Display for RGB {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "RGB: ( {}, {}, {}, {} )",
+            "RGB: ( {:0>3}, {:0>3}, {:0>3}, {:0>3} )",
             self.r(), self.g(), self.b(), self.a()
         )
     }

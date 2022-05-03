@@ -204,7 +204,7 @@ impl Vector4 {
 impl Display for Vector4 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!( f, 
-            "Vector 4: {}, {}, {}, {}", self.x(), self.y(), self.z(), self.w()
+            "( {:7.3}, {:7.3}, {:7.3}, {:7.3} )", self.x(), self.y(), self.z(), self.w()
         )
     }
 }
