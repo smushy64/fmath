@@ -1,19 +1,19 @@
 mod vector2;
 pub use vector2::{
-    Vector2,
+    Vector2, Vector2Int, Vector2Bool, Vector2f64
 };
 mod vector3;
 pub use vector3::{
-    Vector3,
+    Vector3, Vector3Int, Vector3Bool, Vector3f64
 };
 mod vector4;
 pub use vector4::{
-    Vector4,
+    Vector4, Vector4Bool, Vector4f64, Vector4Int,
 };
 
-pub(crate) fn negate_components( v:&mut [f32] ) {
-    for v in v.iter_mut() {
-        *v = -(*v);
+pub(crate) fn negate_components( components:&mut [f32] ) {
+    for component in components.iter_mut() {
+        *component = -(*component);
     }
 }
 
@@ -44,9 +44,7 @@ pub(crate) fn scale_components( v:&[f32], scalar:f32, result:&mut [f32] ) {
 pub(crate) fn dot_components( v1:&[f32], v2:&[f32] ) -> f32 {
     let mut result = 0.0;
     let iter = v1.iter().zip(v2.iter());
-    for ( a, b ) in iter {
-        result += a * b;
-    }
+    for ( a, b ) in iter { result += a * b; }
     return result;
 }
 

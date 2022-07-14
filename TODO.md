@@ -2,13 +2,62 @@
 - [ ] new functions
   - [ ] perlin_noise_*n*d( x, y, optional z ) 2-3 dimensions
   - [ ] simplex_noise_*n*d( x, y, optional z ) 2-3 dimensions
-- [ ] angle axis
+  - [x] array_f32_to_le/be_bytes
+- [x] rename `types` to `structs`
+- [x] Transform
+  - [x] position, rotation, scale
+  - [x] basis vectors
+  - [x] transform matrix and normal matrix
+- [x] angle axis
+- [x] matrix3x3
+- [x] matrix4x4
+  - [x] orthographic
+  - [x] perspective
+  - [x] as_ptr/as_mut_ptr
+  - [x] transpose fn's
+  - [x] get_column/get_row
+  - [x] from vec unchecked ( unsafe! )
+  - [x] clear fn, set cells to 0.0
+  - [x] determinant
+  - [x] submatrix
+  - [x] minor
+  - [x] cofactor
+  - [x] adjoint
+  - [x] inverse
+  - [x] to_le_bytes/to_be_bytes + to_le_bytes_padded/to_be_bytes_padded
+  - [x] fix new_orthographic_projection()
+  - [x] rotation matrix from quaternion
+  - [x] update how trs matrices are created
+  - [x] impl default
+- [x] vector
+  - [x] rewrite and create bool, int and f64 vectors
+  - [x] add/sub/mul/div_assign
+  - [x] lerp_to ( &mut self and `b` )
+  - [x] as_vectorx
+  - [x] as_ptr/as_mut_ptr
+  - [x] clear fn, set components to 0.0
+  - [x] to_le_bytes/to_be_bytes + to_le_bytes_padded/to_be_bytes_padded
+  - [x] x(), y(), z(), w() return f32 instead of &f32
+  - [x] impl default
+- [x] RGB
+  - [x] as vector3
+  - [x] as vector4
+  - [x] clear fn, set to 0u32
+  - [x] mul\<f32\> and div\<f32\> convert to range [0.0-1.0] before op
+- [x] HSV
+  - [x] HSV derive Clone, Copy, PartialEq and Debug
+  - [x] HSV display is formatted the same as RGB display
+  - [x] hue(), saturation(), value() return f32 instead of &f32
+- [x] remove degrees->radians/radians->degrees, f32 has a built in fn for that
+- [x] remove std::fmt everywhere applicable, shouldn't have been there at all
+- [x] fixed degrees overflow ( when input was < -360.0, result would still be negative )
 - [ ] Re-write example for README
 
 # TO DO - 0.2.4 - minor fixes
 - [x] Matrix4x4
   - [x] mul vector3 and vector4 use &Self instead of &self
   - [x] add default trs constructor
+  - [x] look_at constructor
 - [x] remove Angle enum
 - [x] change types accessing - now modules are private with types exposed public
 - [x] test function in 'tests' for every type

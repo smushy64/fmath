@@ -1,15 +1,13 @@
-use core::fmt::Write;
-
-/// Decodes input `str` into bytes `Vec`
+/// Decodes input `&str` into bytes `Vec`
 /// 
-/// * Returns: `Vec` of bytes if input `str` has even number length
+/// * Returns: `Vec` of bytes if input `&str` has even number length
 /// 
-/// * Returns: `Error` as `String` if input `str` has odd number length
+/// * Returns: `Error` as `String` if input `&str` has odd number length
 pub fn decode_hex_str( hex:&str ) -> Result<Vec<u8>, String> {
 
     if hex.len() % 2 != 0 {
         return Err(
-            format!("DECODE HEXADECIMAL ERROR: Input hex string should have even number length!")
+            format!("DECODE HEXADECIMAL ERROR: Input hex string has odd number length!")
         );
     }
 
@@ -31,9 +29,9 @@ pub fn decode_hex_str( hex:&str ) -> Result<Vec<u8>, String> {
 
 }
 
-/// Decodes input `str` into `u8;3`
+/// Decodes input `&str` into `[u8;3]`
 /// 
-/// * Returns: `u8;3` if input `str` is formatted properly
+/// * Returns: `[u8;3]` if input `str` is formatted properly
 /// 
 /// * Returns: `Error` as `String` if input `str` is not formatted properly
 pub fn decode_hex_rgb( hex:&str ) -> Result<[u8;3], String> {
@@ -70,13 +68,11 @@ pub fn decode_hex_rgb( hex:&str ) -> Result<[u8;3], String> {
 
 }
 
-/// Encodes input bytes `array` into *hexadecimal* `String`
+/// Encodes input bytes into *hexadecimal* `String`
 pub fn encode_hex( bytes:&[u8] ) -> String {
-    let mut result = String::with_capacity( bytes.len() * 2 );
-
-    for byte in bytes {
-        write!( &mut result, "{:02x}", byte ).unwrap();
+    let mut buffer = String::with_capacity( bytes.len() * 2 );
+    for byte in bytes.iter() {
+        buffer.push_str( &format!( "{:02x}", byte ) );
     }
-
-    return result;
+    buffer
 }
